@@ -10,7 +10,7 @@ const meta = {
             options: ['fill', 'medium', 'small'],
         },
     },
-} satisfies Meta;
+} satisfies Meta
 
 export default meta
 
@@ -22,9 +22,10 @@ export const EditorWithTitle: Story = {
         variant: 'fill',
     },
     decorators: [
-        (Story) =>
-            <div style={{ height: "100vh", width: "100vw", padding: "10px" }}>
+        (Story) => (
+            <div style={{ height: '100vh', width: '100vw', padding: '10px' }}>
                 <Story />
-            </div >
+            </div>
+        ),
     ],
 }
