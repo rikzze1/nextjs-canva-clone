@@ -75,7 +75,7 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
                     activeTool={activeTool}
                     onChangeActiveTool={onChangeActiveTool}
                 />
-                <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
+                <main className="bg-muted flex-1 overflow-auto relative flex flex-col" tabIndex={0}>
                     <ToolBar />
                     <div className="flex-1 flex items-center justify-center">
                         <canvas ref={canvasRef} {...props} />

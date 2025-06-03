@@ -20,6 +20,7 @@ export const SideBarItem = ({
         <Button
             variant="ghost"
             onClick={onClick}
+            title={label}
             className={cn(
                 'w-full h-full aspect-video cursor-pointer p-3 py-4 flex flex-col rounded-none',
                 isActive && 'bg-gray-100 text-primary'
