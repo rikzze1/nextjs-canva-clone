@@ -21,7 +21,7 @@ export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
             .getObjects()
             .find((object) => object.name === 'clip')
 
-        //@ts-ignore
+        //@ts-expect-error util does not exist
         const scale = fabric.util.findScaleToFit(localWorkspace, {
             width: width,
             height: height,

@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { NavBar } from './NavBar'
+import { Meta, StoryObj } from '@storybook/nextjs'
+import { NavBar } from '@/features/Editor/components/NavBar/NavBar'
 
 const meta = {
     title: 'features/NavBar',
@@ -10,8 +10,4 @@ export default meta
 
 export type Story = StoryObj<typeof NavBar>
 
-export const DefaultNavBar: Story = {
-    args: {
-        title: 'test',
-    },
-}
+export const DefaultNavBar: Story = {}

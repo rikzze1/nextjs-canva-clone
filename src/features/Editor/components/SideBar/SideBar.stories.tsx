@@ -1,10 +1,10 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { SideBar } from './SideBar'
+import { Meta, StoryObj } from '@storybook/nextjs'
+import { SideBar } from '@/features/Editor/components/SideBar/SideBar'
 
 const meta = {
     title: 'features/SideBar',
     component: SideBar,
-}
+} satisfies Meta
 
 export default meta
 

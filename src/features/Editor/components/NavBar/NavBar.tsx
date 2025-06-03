@@ -51,7 +51,7 @@ export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
                         className="min-w-60 border-gray-200 bg-white border-0"
                     >
                         <DropdownMenuItem
-                            onClick={() => { }}
+                            onClick={() => {}}
                             className="flex items-center gap-x-2 cursor-pointer"
                         >
                             <CiFileOn className="size-8" />
@@ -83,7 +83,7 @@ export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
                     <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => { }}
+                        onClick={() => {}}
                         className="cursor-pointer"
                     >
                         <Undo2 className="size-4" />
@@ -93,7 +93,7 @@ export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
                     <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => { }}
+                        onClick={() => {}}
                         className="cursor-pointer"
                     >
                         <Redo2 className="size-4" />
@@ -125,7 +125,7 @@ export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
                         >
                             <DropdownMenuItem
                                 className="flex items-center gap-x-2"
-                                onClick={() => { }}
+                                onClick={() => {}}
                             >
                                 <CiFileOn className="size-8" />
                                 <div>
@@ -137,7 +137,7 @@ export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
                             </DropdownMenuItem>
                             <DropdownMenuItem
                                 className="flex items-center gap-x-2"
-                                onClick={() => { }}
+                                onClick={() => {}}
                             >
                                 <CiFileOn className="size-8" />
                                 <div>
@@ -149,7 +149,7 @@ export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
                             </DropdownMenuItem>
                             <DropdownMenuItem
                                 className="flex items-center gap-x-2"
-                                onClick={() => { }}
+                                onClick={() => {}}
                             >
                                 <CiFileOn className="size-8" />
                                 <div>
@@ -161,7 +161,7 @@ export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
                             </DropdownMenuItem>
                             <DropdownMenuItem
                                 className="flex items-center gap-x-2"
-                                onClick={() => { }}
+                                onClick={() => {}}
                             >
                                 <CiFileOn className="size-8" />
                                 <div>

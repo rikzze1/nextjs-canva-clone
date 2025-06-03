@@ -1,6 +1,6 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { Hint } from './Hint'
-import { Button } from '../ui/button'
+import { Meta, StoryObj } from '@storybook/nextjs'
+import { Hint } from '@/components/Hint/Hint'
+import { Button } from '@/components/ui/button'
 
 const meta = {
     title: 'Shared/Hint',

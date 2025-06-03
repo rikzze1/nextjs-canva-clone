@@ -1,7 +1,6 @@
 import React, { ComponentProps } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { cva } from 'class-variance-authority'
 import { LogoVariants, variants } from './Logo.variants'
 
 type LogoProps = Omit<ComponentProps<typeof Image>, 'src' | 'alt' | 'fill'> &

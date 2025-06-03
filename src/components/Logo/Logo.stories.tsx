@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { Logo } from './Logo'
+import { Meta, StoryObj } from '@storybook/nextjs'
+import { Logo } from '@/components/Logo/Logo'
 
 const meta = {
     title: 'Shared/Logo',

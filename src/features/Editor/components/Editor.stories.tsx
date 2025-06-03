@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { Editor } from './Editor'
+import type { Meta, StoryObj } from '@storybook/nextjs'
+import { Editor } from '@/features/Editor/components/Editor'
 
 const meta = {
     title: 'Features/Editor',

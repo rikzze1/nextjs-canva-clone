@@ -1,22 +1,93 @@
 import { fabric } from 'fabric'
 import { useCallback, useState, useMemo } from 'react'
 import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize'
+import { BuildEditorProps, Editor } from '@/features/Editor/types'
 import {
-    BuildEditorProps,
     CIRCLE_OPTIONS,
-    Editor,
-} from '@/features/Editor/types'
+    DIAMOND_OPTIONS,
+    RECTANGLE_OPTIONS,
+    SOFT_RECTANGLE_OPTIONS,
+    TRIANGLE_OPTIONS,
+} from '@/features/Editor/constants'
 
 const buildEditor = ({ canvas }: BuildEditorProps): Editor => {
+    const getWorkspace = () => {
+        return canvas.getObjects().find((object) => object.name === 'clip')
+    }
+
+    const center = (object: fabric.Object) => {
+        const workspace = getWorkspace()
+        const center = workspace?.getCenterPoint()
+
+        if (!center) return
+
+        //@ts-expect-error bypass this
+        canvas._centerObject(object, center)
+    }
+
+    const addToCanvas = (object: fabric.Object) => {
+        center(object)
+        canvas.add(object)
+        canvas.setActiveObject(object)
+    }
+
     return {
         addCircle: () => {
             const object = new fabric.Circle({
                 ...CIRCLE_OPTIONS,
             })
-            console.log('Adding a circle')
+            addToCanvas(object)
+        },
+        addSoftRectangle: () => {
+            const object = new fabric.Rect({
+                ...SOFT_RECTANGLE_OPTIONS,
+            })
+            addToCanvas(object)
+        },
+        addRectangle: () => {
+            const object = new fabric.Rect({
+                ...RECTANGLE_OPTIONS,
+            })
+            addToCanvas(object)
+        },
+        addTriangle: () => {
+            const object = new fabric.Triangle({
+                ...TRIANGLE_OPTIONS,
+            })
+            addToCanvas(object)
+        },
+        addInverseTriangle: () => {
+            const HEIGHT = TRIANGLE_OPTIONS.height
+            const WIDTH = TRIANGLE_OPTIONS.width
 
-            canvas.add(object)
-            canvas.setActiveObject(object)
+            const object = new fabric.Polygon(
+                [
+                    { x: 0, y: 0 },
+                    { x: WIDTH, y: 0 },
+                    { x: WIDTH / 2, y: HEIGHT },
+                ],
+                {
+                    ...TRIANGLE_OPTIONS,
+                }
+            )
+            addToCanvas(object)
+        },
+        addDiamond: () => {
+            const HEIGHT = DIAMOND_OPTIONS.height
+            const WIDTH = DIAMOND_OPTIONS.width
+
+            const object = new fabric.Polygon(
+                [
+                    { x: WIDTH / 2, y: 0 },
+                    { x: WIDTH, y: HEIGHT / 2 },
+                    { x: WIDTH / 2, y: HEIGHT },
+                    { x: 0, y: HEIGHT / 2 },
+                ],
+                {
+                    ...DIAMOND_OPTIONS,
+                }
+            )
+            addToCanvas(object)
         },
     }
 }
@@ -79,15 +150,6 @@ export const useEditor = () => {
 
             setCanvas(initialCanvas)
             setContainer(initialContainer)
-
-            const test = new fabric.Rect({
-                height: 100,
-                width: 100,
-                fill: 'black',
-            })
-
-            initialCanvas.add(test)
-            initialCanvas.centerObject(test)
         },
         []
     )

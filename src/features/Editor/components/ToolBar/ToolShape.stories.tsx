@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/nextjs'
 import { ToolShape } from '@/features/Editor/components/ToolBar/ToolShape'
 import { Circle, Square, Triangle } from 'lucide-react'
 
@@ -10,7 +10,7 @@ const meta = {
         icon: Circle,
         iconClassName: 'fill-black',
     },
-}
+} satisfies Meta
 
 export default meta
 

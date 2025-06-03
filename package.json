@@ -17,6 +17,7 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.7",
+    "@storybook/nextjs": "^9.0.4",
     "@tailwindcss/postcss": "^4.1.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -33,13 +34,13 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^4.0.0-0",
+    "@chromatic-com/storybook": "^4.0.0",
     "@eslint/eslintrc": "^3",
-    "@storybook/addon-a11y": "^9.0.2",
-    "@storybook/addon-docs": "^9.0.2",
-    "@storybook/addon-onboarding": "^9.0.2",
-    "@storybook/addon-vitest": "^9.0.2",
-    "@storybook/nextjs-vite": "9.0.2",
+    "@storybook/addon-a11y": "^9.0.4",
+    "@storybook/addon-docs": "^9.0.4",
+    "@storybook/addon-onboarding": "^9.0.4",
+    "@storybook/addon-vitest": "^9.0.4",
+    "@storybook/nextjs-vite": "9.0.4",
     "@types/fabric": "5.3.0",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -48,11 +49,14 @@
     "@vitest/coverage-v8": "^3.1.4",
     "eslint": "^9",
     "eslint-config-next": "15.1.8",
-    "eslint-plugin-storybook": "^9.0.2",
+    "eslint-plugin-storybook": "^9.0.4",
     "playwright": "^1.52.0",
     "postcss": "^8.5.4",
-    "storybook": "^9.0.2",
+    "storybook": "^9.0.4",
     "typescript": "^5",
     "vitest": "^3.1.4"
+  },
+  "overrides": {
+    "storybook": "$storybook"
   }
 }

@@ -39,15 +39,27 @@ export const ShapeSideBar = ({
                         onClick={() => editor?.addCircle()}
                         icon={Circle}
                     />
-                    <ToolShape onClick={() => { }} icon={Square} />
-                    <ToolShape onClick={() => { }} icon={Squircle} />
-                    <ToolShape onClick={() => { }} icon={Triangle} />
                     <ToolShape
-                        onClick={() => { }}
+                        onClick={() => editor?.addRectangle()}
+                        icon={Square}
+                    />
+                    <ToolShape
+                        onClick={() => editor?.addSoftRectangle()}
+                        icon={Squircle}
+                    />
+                    <ToolShape
+                        onClick={() => editor?.addTriangle()}
+                        icon={Triangle}
+                    />
+                    <ToolShape
+                        onClick={() => editor?.addInverseTriangle()}
                         icon={Triangle}
                         iconClassName="rotate-180"
                     />
-                    <ToolShape onClick={() => { }} icon={Diamond} />
+                    <ToolShape
+                        onClick={() => editor?.addDiamond()}
+                        icon={Diamond}
+                    />
                 </div>
             </ScrollArea>
             <ToolSideBarClose onClick={onClose} />
