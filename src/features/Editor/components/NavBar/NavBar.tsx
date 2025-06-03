@@ -2,10 +2,18 @@
 
 import React from 'react'
 
-import { ChevronDown, Download, MousePointerClick, Redo2, Undo2 } from 'lucide-react'
+import {
+    ChevronDown,
+    Download,
+    MousePointerClick,
+    Redo2,
+    Undo2,
+} from 'lucide-react'
 import { CiFileOn } from 'react-icons/ci'
-import { BsCloudCheck } from "react-icons/bs";
+import { BsCloudCheck } from 'react-icons/bs'
 import { Logo } from '@/components/Logo/Logo'
+import { ActiveTool } from '@/features/Editor/types'
+
 import {
     DropdownMenu,
     DropdownMenuItem,
@@ -15,8 +23,14 @@ import {
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Hint } from '@/components/Hint/Hint'
+import { cn } from '@/lib/utils'
 
-export const NavBar = () => {
+interface NavbarProps {
+    activeTool: ActiveTool
+    onChangeActiveTool: (tool: ActiveTool) => void
+}
+
+export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
     return (
         <nav className="w-full z-50 flex items-center p-4 h-[68px] gap-x-8 bg-white border-gray-100 border-b lg:pl-[34px]">
             <Logo variant="small" />
@@ -56,8 +70,11 @@ export const NavBar = () => {
                     <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => { }}
-                        className="hover:cursor-pointer"
+                        onClick={() => onChangeActiveTool('select')}
+                        className={cn(
+                            'cursor-pointer',
+                            activeTool === 'select' && 'bg-gray-100'
+                        )}
                     >
                         <MousePointerClick className="size-4" />
                     </Button>
@@ -67,7 +84,7 @@ export const NavBar = () => {
                         variant="ghost"
                         size="icon"
                         onClick={() => { }}
-                        className="hover:cursor-pointer"
+                        className="cursor-pointer"
                     >
                         <Undo2 className="size-4" />
                     </Button>
@@ -77,7 +94,7 @@ export const NavBar = () => {
                         variant="ghost"
                         size="icon"
                         onClick={() => { }}
-                        className="hover:cursor-pointer"
+                        className="cursor-pointer"
                     >
                         <Redo2 className="size-4" />
                     </Button>
@@ -88,45 +105,70 @@ export const NavBar = () => {
                 />
                 <div className="flex items-center gap-x-2">
                     <BsCloudCheck className="size-[20px] text-muted-foreground" />
-                    <div className="text-xs text-gray-500">
-                        Saved
-                    </div>
+                    <div className="text-xs text-gray-500">Saved</div>
                 </div>
                 <div className="ml-auto flex items-center gap-x-4">
                     <DropdownMenu modal={false}>
                         <DropdownMenuTrigger asChild>
-                            <Button size="sm" variant="ghost" className="hover:bg-zinc-100 hover:cursor-pointer">
+                            <Button
+                                size="sm"
+                                variant="ghost"
+                                className="hover:bg-zinc-100 hover:cursor-pointer"
+                            >
                                 Export
                                 <Download className="size-4 ml-4" />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="min-w-60 border-gray-200 bg-white">
-                            <DropdownMenuItem className="flex items-center gap-x-2" onClick={() => { }}>
+                        <DropdownMenuContent
+                            align="end"
+                            className="min-w-60 border-gray-200 bg-white"
+                        >
+                            <DropdownMenuItem
+                                className="flex items-center gap-x-2"
+                                onClick={() => { }}
+                            >
                                 <CiFileOn className="size-8" />
                                 <div>
                                     <p>JSON</p>
-                                    <p className="text-xs text-gray-500">Save for later editing</p>
+                                    <p className="text-xs text-gray-500">
+                                        Save for later editing
+                                    </p>
                                 </div>
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="flex items-center gap-x-2" onClick={() => { }}>
+                            <DropdownMenuItem
+                                className="flex items-center gap-x-2"
+                                onClick={() => { }}
+                            >
                                 <CiFileOn className="size-8" />
                                 <div>
                                     <p>PNG</p>
-                                    <p className="text-xs text-gray-500">Best sharing on the web</p>
+                                    <p className="text-xs text-gray-500">
+                                        Best sharing on the web
+                                    </p>
                                 </div>
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="flex items-center gap-x-2" onClick={() => { }}>
+                            <DropdownMenuItem
+                                className="flex items-center gap-x-2"
+                                onClick={() => { }}
+                            >
                                 <CiFileOn className="size-8" />
                                 <div>
                                     <p>JPEG</p>
-                                    <p className="text-xs text-gray-500">Best for printing</p>
+                                    <p className="text-xs text-gray-500">
+                                        Best for printing
+                                    </p>
                                 </div>
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="flex items-center gap-x-2" onClick={() => { }}>
+                            <DropdownMenuItem
+                                className="flex items-center gap-x-2"
+                                onClick={() => { }}
+                            >
                                 <CiFileOn className="size-8" />
                                 <div>
                                     <p>SVG</p>
-                                    <p className="text-xs text-gray-500">Best for editing vector</p>
+                                    <p className="text-xs text-gray-500">
+                                        Best for editing vector
+                                    </p>
                                 </div>
                             </DropdownMenuItem>
                         </DropdownMenuContent>

@@ -2,19 +2,40 @@
 
 import { fabric } from 'fabric'
 import { EditorVariants, variants } from './Editor.variance'
-import { ComponentProps, useEffect, useRef } from 'react'
+import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 
 import { NavBar } from '@/features/Editor/components/NavBar/NavBar'
 import { SideBar } from '@/features/Editor/components/SideBar/SideBar'
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar'
 import { Footer } from '@/features/Editor/components/Footer/Footer'
+import { ShapeSideBar } from '@/features/Editor/components/SideBar/ShapeSideBar'
 import { useEditor } from '@/features/Editor/hooks/use-editor'
+import { ActiveTool } from '@/features/Editor/types'
 
 type EditorProps = ComponentProps<'canvas'> & EditorVariants
 
 export const Editor = ({ variant, ...props }: EditorProps) => {
-    const { init } = useEditor()
+    const [activeTool, setActiveTool] = useState<ActiveTool>('select')
+
+    const onChangeActiveTool = useCallback(
+        (tool: ActiveTool) => {
+            if (tool === activeTool) {
+                return setActiveTool('select')
+            }
+            if (tool === 'draw') {
+                //TODO: Enable draw mow
+            }
+            if (activeTool === 'draw') {
+                //TODO: Disable draw mode
+            }
+
+            setActiveTool(tool)
+        },
+        [activeTool]
+    )
+
+    const { init, editor } = useEditor()
 
     const canvasRef = useRef(null)
     const containerRef = useRef<HTMLDivElement>(null)
@@ -40,9 +61,20 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
             className={clsx(variants({ variant }), 'bg-muted')}
             ref={containerRef}
         >
-            <NavBar />
+            <NavBar
+                activeTool={activeTool}
+                onChangeActiveTool={onChangeActiveTool}
+            />
             <div className="absolute h-[calc(100%-68px)] w-full top-[68px] flex">
-                <SideBar />
+                <SideBar
+                    activeTool={activeTool}
+                    onChangeActiveTool={onChangeActiveTool}
+                />
+                <ShapeSideBar
+                    editor={editor}
+                    activeTool={activeTool}
+                    onChangeActiveTool={onChangeActiveTool}
+                />
                 <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
                     <ToolBar />
                     <div className="flex-1 flex items-center justify-center">
