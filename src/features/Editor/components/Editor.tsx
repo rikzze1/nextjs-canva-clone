@@ -75,8 +75,16 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
                     activeTool={activeTool}
                     onChangeActiveTool={onChangeActiveTool}
                 />
-                <main className="bg-muted flex-1 overflow-auto relative flex flex-col" tabIndex={0}>
-                    <ToolBar />
+                <main
+                    className="bg-muted flex-1 overflow-auto relative flex flex-col"
+                    tabIndex={0}
+                >
+                    <ToolBar
+                        editor={editor}
+                        activeTool={activeTool}
+                        onChangeActiveTool={onChangeActiveTool}
+                        key={JSON.stringify(editor?.canvas.getActiveObjects())}
+                    />
                     <div className="flex-1 flex items-center justify-center">
                         <canvas ref={canvasRef} {...props} />
                     </div>

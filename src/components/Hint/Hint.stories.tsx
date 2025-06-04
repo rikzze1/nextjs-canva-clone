@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from '@storybook/nextjs'
 import { Hint } from '@/components/Hint/Hint'
 import { Button } from '@/components/ui/button'
+import { userEvent, within, expect, screen, waitFor } from 'storybook/test'
+import { exportTraceState } from 'next/dist/trace'
 
 const meta = {
     title: 'Shared/Hint',
@@ -44,6 +46,20 @@ export const TopHint: Story = {
     args: {
         label: 'Top positioned hint',
         side: 'top',
+    },
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement)
+
+        const button = canvas.getByRole('button')
+        const hint = screen.queryByText('Top positioned hint')
+
+        await expect(hint).not.toBeInTheDocument()
+        await userEvent.hover(button)
+
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        await userEvent.unhover(button)
+
+        await expect(screen.queryByTestId('hint')).not.toBeInTheDocument()
     },
 }
 

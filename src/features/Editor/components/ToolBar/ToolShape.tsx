@@ -17,6 +17,7 @@ export const ToolShape = ({
     return (
         <button
             onClick={onClick}
+            title="tool"
             className="aspect-square border border-gray-200 rounded-md p-5"
         >
             <Icon className={cn('h-full w-full fill-black', iconClassName)} />

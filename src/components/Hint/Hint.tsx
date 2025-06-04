@@ -31,6 +31,7 @@ export const Hint = ({
                 <TooltipTrigger asChild>{children}</TooltipTrigger>
                 <TooltipContent
                     className="text-white bg-slate-800 border-slate-800"
+                    data-hint
                     side={side}
                     align={align}
                     sideOffset={sideOffset}

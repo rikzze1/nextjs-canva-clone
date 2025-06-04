@@ -21,7 +21,6 @@ export const SideBar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
         <aside className="bg-white flex flex-col w-[100px] h-full border-r border-gray-200 overflow-y-auto">
             <ul className="flex flex-col">
                 <li>
-
                     <SideBarItem
                         icon={LayoutTemplate}
                         label="Design"
@@ -30,7 +29,6 @@ export const SideBar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
                     />
                 </li>
                 <li>
-
                     <SideBarItem
                         icon={ImageIcon}
                         label="Image"
@@ -39,7 +37,6 @@ export const SideBar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
                     />
                 </li>
                 <li>
-
                     <SideBarItem
                         icon={Type}
                         label="Text"
@@ -48,7 +45,6 @@ export const SideBar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
                     />
                 </li>
                 <li>
-
                     <SideBarItem
                         icon={Shapes}
                         label="Shapes"
@@ -57,7 +53,6 @@ export const SideBar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
                     />
                 </li>
                 <li>
-
                     <SideBarItem
                         icon={Sparkles}
                         label="AI"
