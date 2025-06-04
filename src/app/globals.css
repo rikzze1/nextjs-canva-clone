@@ -6,3 +6,15 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.circle-picker {
+    width: auto !important;
+}
+
+.chrome-picker {
+    width: auto !important;
+    box-shadow: none !important;
+    border-radius: 0.5rem !important;
+    border: 1px solid #ececec;
+    overflow: hidden !important;
+}

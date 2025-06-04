@@ -1,3 +1,5 @@
+'use client'
+
 import { ActiveTool, Editor } from '@/features/Editor/types'
 import { cn } from '@/lib/utils'
 

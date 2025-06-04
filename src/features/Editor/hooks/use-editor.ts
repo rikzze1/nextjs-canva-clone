@@ -13,7 +13,7 @@ import {
     TRIANGLE_OPTIONS,
 } from '@/features/Editor/constants'
 import { useCanvasEvents } from '@/features/Editor/hooks/use-canvas-events'
-import { isTextType } from '@/features/Editor/utils';
+import { isTextType } from '@/features/Editor/utils'
 
 const buildEditor = ({
     canvas,
@@ -23,6 +23,7 @@ const buildEditor = ({
     setStrokeColor,
     strokeWidth,
     setStrokeWidth,
+    selectedObjects,
 }: BuildEditorProps): Editor => {
     const getWorkspace = () => {
         return canvas.getObjects().find((object) => object.name === 'clip')
@@ -46,47 +47,62 @@ const buildEditor = ({
 
     return {
         changeFillColor: (value: string) => {
-            setFillColor(value);
+            setFillColor(value)
             canvas.getActiveObjects().forEach((object) => {
-                object.set({ fill: value });
+                object.set({ fill: value })
             })
+            canvas.renderAll()
         },
         changeStrokeWidth: (value: number) => {
-            setStrokeWidth(value);
+            setStrokeWidth(value)
             canvas.getActiveObjects().forEach((object) => {
-                object.set({ strokeWidth: value });
+                object.set({ strokeWidth: value })
             })
+            canvas.renderAll()
         },
         changeStrokeColor: (value: string) => {
-            setStrokeColor(value);
+            setStrokeColor(value)
             canvas.getActiveObjects().forEach((object) => {
                 if (isTextType(object.type)) {
-                    object.set({ fill: value });
-                    return;
+                    object.set({ fill: value })
+                    return
                 }
             })
+            canvas.renderAll()
         },
         addCircle: () => {
             const object = new fabric.Circle({
                 ...CIRCLE_OPTIONS,
+                fill: fillColor,
+                stroke: strokeColor,
+                strokeWidth: strokeWidth,
             })
             addToCanvas(object)
         },
         addSoftRectangle: () => {
             const object = new fabric.Rect({
                 ...SOFT_RECTANGLE_OPTIONS,
+                fill: fillColor,
+                stroke: strokeColor,
+                strokeWidth: strokeWidth,
             })
             addToCanvas(object)
         },
         addRectangle: () => {
             const object = new fabric.Rect({
                 ...RECTANGLE_OPTIONS,
+                fill: fillColor,
+                stroke: strokeColor,
+                strokeWidth: strokeWidth,
             })
             addToCanvas(object)
         },
         addTriangle: () => {
             const object = new fabric.Triangle({
                 ...TRIANGLE_OPTIONS,
+                fill: fillColor,
+                stroke: strokeColor,
+                strokeWidth: strokeWidth,
             })
             addToCanvas(object)
         },
@@ -102,6 +118,9 @@ const buildEditor = ({
                 ],
                 {
                     ...TRIANGLE_OPTIONS,
+                    fill: fillColor,
+                    stroke: strokeColor,
+                    strokeWidth: strokeWidth,
                 }
             )
             addToCanvas(object)
@@ -119,6 +138,9 @@ const buildEditor = ({
                 ],
                 {
                     ...DIAMOND_OPTIONS,
+                    fill: fillColor,
+                    stroke: strokeColor,
+                    strokeWidth: strokeWidth,
                 }
             )
             addToCanvas(object)
@@ -127,6 +149,7 @@ const buildEditor = ({
         fillColor,
         strokeColor,
         strokeWidth,
+        selectedObjects,
     }
 }
 
@@ -159,10 +182,11 @@ export const useEditor = () => {
                 setStrokeColor,
                 setStrokeWidth,
                 setFillColor,
+                selectedObjects,
             })
         }
         return undefined
-    }, [canvas, fillColor, strokeColor])
+    }, [canvas, fillColor, strokeColor, strokeWidth, selectedObjects])
 
     const init = useCallback(
         ({
@@ -172,6 +196,11 @@ export const useEditor = () => {
             initialCanvas: fabric.Canvas
             initialContainer: HTMLDivElement
         }) => {
+            if (!initialContainer) {
+                console.error('Container is null')
+                return
+            }
+
             fabric.Object.prototype.set({
                 cornerColor: '#fff',
                 cornerStyle: 'circle',

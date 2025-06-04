@@ -1,3 +1,4 @@
+'use client'
 interface ToolSideBarHeaderProps {
     title: string
     description?: string

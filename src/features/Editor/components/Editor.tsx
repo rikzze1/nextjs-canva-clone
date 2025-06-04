@@ -12,6 +12,7 @@ import { Footer } from '@/features/Editor/components/Footer/Footer'
 import { ShapeSideBar } from '@/features/Editor/components/SideBar/ShapeSideBar'
 import { useEditor } from '@/features/Editor/hooks/use-editor'
 import { ActiveTool } from '@/features/Editor/types'
+import { FillColorSidebar } from '@/features/Editor/components/SideBar/SideBarFillColor'
 
 type EditorProps = ComponentProps<'canvas'> & EditorVariants
 
@@ -41,6 +42,10 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
     const containerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+        if (!canvasRef.current || !containerRef.current) {
+            return
+        }
+
         const canvas = new fabric.Canvas(canvasRef.current, {
             controlsAboveOverlay: true,
             preserveObjectStacking: true,
@@ -48,7 +53,7 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
 
         init({
             initialCanvas: canvas,
-            initialContainer: containerRef.current!,
+            initialContainer: containerRef.current,
         })
 
         return () => {
@@ -75,6 +80,11 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
                     activeTool={activeTool}
                     onChangeActiveTool={onChangeActiveTool}
                 />
+                <FillColorSidebar
+                    editor={editor}
+                    activeTool={activeTool}
+                    onChangeActiveTool={onChangeActiveTool}
+                />
                 <main
                     className="bg-muted flex-1 overflow-auto relative flex flex-col"
                     tabIndex={0}
@@ -83,7 +93,6 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
                         editor={editor}
                         activeTool={activeTool}
                         onChangeActiveTool={onChangeActiveTool}
-                        key={JSON.stringify(editor?.canvas.getActiveObjects())}
                     />
                     <div className="flex-1 flex items-center justify-center">
                         <canvas ref={canvasRef} {...props} />

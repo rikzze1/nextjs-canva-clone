@@ -1,3 +1,5 @@
+'use client'
+
 import { ChevronsLeft } from 'lucide-react'
 
 interface ToolSideBarCloseProps {
