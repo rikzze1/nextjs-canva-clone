@@ -1,13 +1,14 @@
-import { Meta, StoryObj } from '@storybook/nextjs'
-import { SideBar } from '@/features/Editor/components/SideBar/SideBar'
+import { Meta, StoryObj } from '@storybook/nextjs';
+
+import { SideBar } from '@/features/Editor/components/SideBar/SideBar';
 
 const meta = {
-    title: 'features/SideBar',
-    component: SideBar,
-} satisfies Meta
+  title: 'features/SideBar',
+  component: SideBar,
+} satisfies Meta;
 
-export default meta
+export default meta;
 
-export type Story = StoryObj<typeof SideBar>
+export type Story = StoryObj<typeof SideBar>;
 
-export const DefaultSideBar = {}
+export const DefaultSideBar = {};

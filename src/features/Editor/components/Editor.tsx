@@ -1,105 +1,109 @@
-'use client'
+'use client';
 
-import { fabric } from 'fabric'
-import { EditorVariants, variants } from './Editor.variance'
-import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react'
-import clsx from 'clsx'
+import clsx from 'clsx';
+import { fabric } from 'fabric';
+import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
 
-import { NavBar } from '@/features/Editor/components/NavBar/NavBar'
-import { SideBar } from '@/features/Editor/components/SideBar/SideBar'
-import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar'
-import { Footer } from '@/features/Editor/components/Footer/Footer'
-import { ShapeSideBar } from '@/features/Editor/components/SideBar/ShapeSideBar'
-import { useEditor } from '@/features/Editor/hooks/use-editor'
-import { ActiveTool } from '@/features/Editor/types'
-import { FillColorSidebar } from '@/features/Editor/components/SideBar/SideBarFillColor'
+import { Footer } from '@/features/Editor/components/Footer/Footer';
+import { NavBar } from '@/features/Editor/components/NavBar/NavBar';
+import { ShapeSideBar } from '@/features/Editor/components/SideBar/ShapeSideBar';
+import { SideBar } from '@/features/Editor/components/SideBar/SideBar';
+import { FillColorSidebar } from '@/features/Editor/components/SideBar/SideBarFillColor';
+import { StrokeColorSidebar } from '@/features/Editor/components/SideBar/SideBarStrokeColor';
+import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
+import { selectionDependentTools } from '@/features/Editor/constants';
+import { useEditor } from '@/features/Editor/hooks/use-editor';
+import { ActiveTool } from '@/features/Editor/types';
 
-type EditorProps = ComponentProps<'canvas'> & EditorVariants
+import { EditorVariants, variants } from './Editor.variance';
+
+type EditorProps = ComponentProps<'canvas'> & EditorVariants;
 
 export const Editor = ({ variant, ...props }: EditorProps) => {
-    const [activeTool, setActiveTool] = useState<ActiveTool>('select')
+  const [activeTool, setActiveTool] = useState<ActiveTool>('select');
 
-    const onChangeActiveTool = useCallback(
-        (tool: ActiveTool) => {
-            if (tool === activeTool) {
-                return setActiveTool('select')
-            }
-            if (tool === 'draw') {
-                //TODO: Enable draw mow
-            }
-            if (activeTool === 'draw') {
-                //TODO: Disable draw mode
-            }
+  const onChangeActiveTool = useCallback(
+    (tool: ActiveTool) => {
+      if (tool === activeTool) {
+        return setActiveTool('select');
+      }
+      if (tool === 'draw') {
+        //TODO: Enable draw mow
+      }
+      if (activeTool === 'draw') {
+        //TODO: Disable draw mode
+      }
 
-            setActiveTool(tool)
-        },
-        [activeTool]
-    )
+      setActiveTool(tool);
+    },
+    [activeTool]
+  );
 
-    const { init, editor } = useEditor()
+  const onClearSelection = useCallback(() => {
+    if (selectionDependentTools.includes(activeTool)) {
+      setActiveTool('select');
+    }
+  }, [activeTool]);
 
-    const canvasRef = useRef(null)
-    const containerRef = useRef<HTMLDivElement>(null)
+  const { init, editor } = useEditor({
+    clearSelectionCallback: onClearSelection,
+  });
 
-    useEffect(() => {
-        if (!canvasRef.current || !containerRef.current) {
-            return
-        }
+  const canvasRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-        const canvas = new fabric.Canvas(canvasRef.current, {
-            controlsAboveOverlay: true,
-            preserveObjectStacking: true,
-        })
+  useEffect(() => {
+    if (!canvasRef.current || !containerRef.current) {
+      return;
+    }
 
-        init({
-            initialCanvas: canvas,
-            initialContainer: containerRef.current,
-        })
+    const canvas = new fabric.Canvas(canvasRef.current, {
+      controlsAboveOverlay: true,
+      preserveObjectStacking: true,
+    });
 
-        return () => {
-            canvas.dispose()
-        }
-    }, [init])
+    init({
+      initialCanvas: canvas,
+      initialContainer: containerRef.current,
+    });
 
-    return (
-        <div
-            className={clsx(variants({ variant }), 'bg-muted')}
-            ref={containerRef}
-        >
-            <NavBar
-                activeTool={activeTool}
-                onChangeActiveTool={onChangeActiveTool}
-            />
-            <div className="absolute h-[calc(100%-68px)] w-full top-[68px] flex">
-                <SideBar
-                    activeTool={activeTool}
-                    onChangeActiveTool={onChangeActiveTool}
-                />
-                <ShapeSideBar
-                    editor={editor}
-                    activeTool={activeTool}
-                    onChangeActiveTool={onChangeActiveTool}
-                />
-                <FillColorSidebar
-                    editor={editor}
-                    activeTool={activeTool}
-                    onChangeActiveTool={onChangeActiveTool}
-                />
-                <main
-                    className="bg-muted flex-1 overflow-auto relative flex flex-col"
-                    tabIndex={0}
-                >
-                    <ToolBar
-                        editor={editor}
-                        activeTool={activeTool}
-                        onChangeActiveTool={onChangeActiveTool}
-                    />
-                    <div className="flex-1 flex items-center justify-center">
-                        <canvas ref={canvasRef} {...props} />
-                    </div>
-                    <Footer />
-                </main>
-            </div>
-        </div>
-    )
-}
+    return () => {
+      canvas.dispose();
+    };
+  }, [init]);
+
+  return (
+    <div className={clsx(variants({ variant }), 'bg-muted')} ref={containerRef}>
+      <NavBar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
+      <div className='absolute h-[calc(100%-68px)] w-full top-[68px] flex'>
+        <SideBar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
+        <ShapeSideBar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <FillColorSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <StrokeColorSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <main className='bg-muted flex-1 overflow-auto relative flex flex-col' tabIndex={0}>
+          <ToolBar
+            editor={editor}
+            activeTool={activeTool}
+            onChangeActiveTool={onChangeActiveTool}
+          />
+          <div className='flex-1 flex items-center justify-center'>
+            <canvas ref={canvasRef} {...props} />
+          </div>
+          <Footer />
+        </main>
+      </div>
+    </div>
+  );
+};
