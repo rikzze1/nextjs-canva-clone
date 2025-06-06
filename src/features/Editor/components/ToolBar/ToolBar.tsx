@@ -1,10 +1,11 @@
 'use client';
 
+import { cn } from '@/lib/utils';
+import { ActiveTool, Editor } from '@/features/Editor/types';
+import { ArrowUp, ArrowDown } from 'lucide-react';
+import { BsBorderWidth } from 'react-icons/bs';
 import { Hint } from '@/components/Hint/Hint';
 import { Button } from '@/components/ui/button';
-import { ActiveTool, Editor } from '@/features/Editor/types';
-import { cn } from '@/lib/utils';
-import { BsBorderWidth } from 'react-icons/bs';
 
 interface ToolbarProps {
   editor: Editor | undefined;
@@ -23,7 +24,7 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
   }
 
   return (
-    <div className='shrink-0 h-[56px] border-b border-gray-200 bg-white w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-2'>
+    <div className='shrink-0 h-[56px] border-b border-gray-200 bg-white w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-8'>
       <div className='flex gap-2 items-center h-full justify-center'>
         <Hint label='Color' side='bottom' sideOffset={5}>
           <Button
@@ -31,7 +32,7 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
             size='icon'
             variant='ghost'
             title='Color picker'
-            className={cn('cursor-pointer', activeTool === 'fill' && 'bg-gray-200')}
+            className={cn(activeTool === 'fill' && 'bg-gray-200')}
             style={{
               backgroundColor: fillColor,
             }}
@@ -47,7 +48,7 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
             size='icon'
             variant='ghost'
             title='Stroke color'
-            className={cn('cursor-pointer', activeTool === 'stroke-color' && 'bg-gray-200')}
+            className={cn(activeTool === 'stroke-color' && 'bg-gray-200')}
             style={{
               borderColor: strokeColor,
             }}
@@ -66,12 +67,36 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
             size='icon'
             variant='ghost'
             title='Stroke width'
-            className={cn('cursor-pointer', activeTool === 'stroke-width' && 'bg-gray-200')}
+            className={cn(activeTool === 'stroke-width' && 'bg-gray-200')}
             style={{
               borderColor: strokeColor,
             }}
           >
             <BsBorderWidth className='size-4' />
+          </Button>
+        </Hint>
+      </div>
+      <div className='flex gap-2 items-center h-full justify-center'>
+        <Hint label='Bring forward' side='bottom' sideOffset={5}>
+          <Button
+            onClick={() => editor?.bringForward()}
+            size='icon'
+            variant='ghost'
+            title='Bring forward'
+          >
+            <ArrowUp className='size-4' />
+          </Button>
+        </Hint>
+      </div>
+      <div className='flex gap-2 items-center h-full justify-center'>
+        <Hint label='Send backward' side='bottom' sideOffset={5}>
+          <Button
+            onClick={() => editor?.sendBackwards()}
+            size='icon'
+            variant='ghost'
+            title='Send backward'
+          >
+            <ArrowDown className='size-4' />
           </Button>
         </Hint>
       </div>
