@@ -1,4 +1,5 @@
 import { fabric } from 'fabric';
+import { ITextboxOptions } from 'fabric/fabric-impl';
 
 export type ActiveTool =
   | 'select'
@@ -34,7 +35,7 @@ export type BuildEditorProps = {
   setStrokeDashArray: (value: number[]) => void;
 };
 export interface Editor {
-  addText: () => void;
+  addText: (value: string, options?: ITextboxOptions) => void;
   getActiveOpacity: () => number;
   changeOpacity: (value: number) => void;
   bringForward: () => void;

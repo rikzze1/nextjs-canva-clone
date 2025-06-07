@@ -14,11 +14,9 @@ interface TextSidebarProps {
 }
 
 export const TextSidebar = ({ editor, activeTool, onChangeActiveTool }: TextSidebarProps) => {
-
   const onClose = () => {
     onChangeActiveTool('select');
   };
-
 
   return (
     <aside
@@ -32,10 +30,48 @@ export const TextSidebar = ({ editor, activeTool, onChangeActiveTool }: TextSide
         <div className='p-4 space-y-4 border-b border-gray-200'>
           <Button
             variant='secondary'
-            className='w-full bg-black'
-            onClick={() => editor?.addText()}
+            className='w-full bg-black text-white hover:bg-zinc-700'
+            onClick={() => editor?.addText('Textbox')}
           >
             Add a textbox
+          </Button>
+          <Button
+            variant='secondary'
+            size='lg'
+            className='w-full h-16 bg-gray-100 text-black hover:bg-gray-200'
+            onClick={() =>
+              editor?.addText('Heading', {
+                fontSize: 80,
+                fontWeight: 700,
+              })
+            }
+          >
+            <span className='text-3xl font-bold'>Add a heading</span>
+          </Button>
+          <Button
+            variant='secondary'
+            size='lg'
+            className='w-full h-16 bg-gray-100 text-black hover:bg-gray-200'
+            onClick={() =>
+              editor?.addText('Subheading', {
+                fontSize: 44,
+                fontWeight: 600,
+              })
+            }
+          >
+            <span className='text-2xl font-semibold'>Add a subheading</span>
+          </Button>
+          <Button
+            variant='secondary'
+            size='lg'
+            className='w-full h-16 bg-gray-100 text-black hover:bg-gray-200'
+            onClick={() =>
+              editor?.addText('Paragraph', {
+                fontSize: 32,
+              })
+            }
+          >
+            Add a Paragraph
           </Button>
         </div>
       </ScrollArea>
