@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Editor } from '@/features/Editor/components/Editor';
 
 const meta = {
-  title: 'Features/Editor',
+  title: 'Features/Editor/Editor',
   component: Editor,
   argTypes: {
     variant: {
@@ -17,7 +17,7 @@ export default meta;
 
 export type Story = StoryObj<typeof Editor>;
 
-export const EditorWithTitle: Story = {
+export const defaultEditor: Story = {
   args: {
     title: 'Canvas',
     variant: 'fill',

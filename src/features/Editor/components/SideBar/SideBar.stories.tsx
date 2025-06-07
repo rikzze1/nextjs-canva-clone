@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/nextjs';
 import { SideBar } from '@/features/Editor/components/SideBar/SideBar';
 
 const meta = {
-  title: 'features/SideBar',
+  title: 'features/Editor/SideBar',
   component: SideBar,
 } satisfies Meta;
 

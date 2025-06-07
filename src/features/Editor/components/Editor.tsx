@@ -3,7 +3,10 @@
 import clsx from 'clsx';
 import { fabric } from 'fabric';
 import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
+import { selectionDependentTools } from '@/features/Editor/constants';
+import { useEditor } from '@/features/Editor/hooks/use-editor';
 
+import { EditorVariants, variants } from '@/features/Editor/components/Editor.variance';
 import { Footer } from '@/features/Editor/components/Footer/Footer';
 import { NavBar } from '@/features/Editor/components/NavBar/NavBar';
 import { ShapeSideBar } from '@/features/Editor/components/SideBar/ShapeSideBar';
@@ -11,12 +14,9 @@ import { SideBar } from '@/features/Editor/components/SideBar/SideBar';
 import { FillColorSidebar } from '@/features/Editor/components/SideBar/SideBarFillColor';
 import { StrokeColorSidebar } from '@/features/Editor/components/SideBar/SideBarStrokeColor';
 import { StrokeWidthSidebar } from '@/features/Editor/components/SideBar/SideBarStrokeWidth';
+import { OpacitySidebar } from '@/features/Editor/components/SideBar/SideBarOpacity';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
-import { selectionDependentTools } from '@/features/Editor/constants';
-import { useEditor } from '@/features/Editor/hooks/use-editor';
 import { ActiveTool } from '@/features/Editor/types';
-
-import { EditorVariants, variants } from './Editor.variance';
 
 type EditorProps = ComponentProps<'canvas'> & EditorVariants;
 
@@ -94,6 +94,11 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <StrokeWidthSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <OpacitySidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}

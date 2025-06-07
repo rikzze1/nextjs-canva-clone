@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { ActiveTool, Editor } from '@/features/Editor/types';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 import { BsBorderWidth } from 'react-icons/bs';
+import { RxTransparencyGrid } from 'react-icons/rx';
 import { Hint } from '@/components/Hint/Hint';
 import { Button } from '@/components/ui/button';
 
@@ -97,6 +98,19 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
             title='Send backward'
           >
             <ArrowDown className='size-4' />
+          </Button>
+        </Hint>
+      </div>
+      <div className='flex gap-2 items-center h-full justify-center'>
+        <Hint label='Opacity' side='bottom' sideOffset={5}>
+          <Button
+            onClick={() => onChangeActiveTool('opacity')}
+            size='icon'
+            variant='ghost'
+            title='Opacity'
+            className={cn(activeTool === 'opacity' && 'bg-gray-100')}
+          >
+            <RxTransparencyGrid className='size-4' />
           </Button>
         </Hint>
       </div>

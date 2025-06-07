@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/nextjs';
 import { Footer } from './Footer';
 
 const meta = {
-  title: 'features/Footer',
+  title: 'features/Editor/Footer',
   component: Footer,
 } satisfies Meta;
 
