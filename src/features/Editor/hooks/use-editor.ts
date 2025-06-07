@@ -10,6 +10,7 @@ import {
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
   STROKE_WIDTH,
+  TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from '@/features/Editor/constants';
 import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
@@ -50,6 +51,13 @@ const buildEditor = ({
   };
 
   return {
+    addText: () => {
+      const object = new fabric.Textbox("Hello", {
+        ...TEXT_OPTIONS,
+        fill: fillColor,
+      })
+      addToCanvas(object);
+    },
     getActiveOpacity: () => {
       const selectedObject = selectedObjects[0];
 
