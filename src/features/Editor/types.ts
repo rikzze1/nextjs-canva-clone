@@ -41,6 +41,8 @@ export type BuildEditorProps = {
 };
 export interface Editor {
   addText: (value: string, options?: ITextboxOptions) => void;
+  getActiveFontSize: () => number;
+  changeFontSize: (value: number) => void;
   getActiveTextAlign: () => TextAlign;
   changeTextAlign: (value: TextAlign) => void;
   getActiveFontWeight: () => number;

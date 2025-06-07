@@ -2,15 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { isTextType } from '@/features/Editor/utils';
+import { FONT_STYLE, FONT_WEIGHT } from '@/features/Editor/constants';
 import { ActiveTool, Editor, TextAlign } from '@/features/Editor/types';
+
 import { ArrowUp, ArrowDown, ChevronDown, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
 import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from 'react-icons/fa6';
 import { BsBorderWidth } from 'react-icons/bs';
 import { RxTransparencyGrid } from 'react-icons/rx';
 import { Hint } from '@/components/Hint/Hint';
 import { Button } from '@/components/ui/button';
-import { isTextType } from '@/features/Editor/utils';
-import { FONT_STYLE, FONT_WEIGHT } from '@/features/Editor/constants';
+import { FontSizeInput } from '@/features/Editor/components/Input/FontSizeInput';
 
 interface ToolbarProps {
   editor: Editor | undefined;
@@ -27,16 +29,18 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
   const initialFontLinethrough = editor?.getActiveFontLinethrough();
   const initialFontUnderline = editor?.getActiveFontUnderline();
   const initialTextAlign = editor?.getActiveTextAlign();
+  const initialFontSize = editor?.getActiveFontSize();
 
   const [properties, setProperties] = useState({
+    textAlign: initialTextAlign,
     fillColor: initialFillColor,
     fontStyle: initialFontStyle,
     fontWeight: initialFontWeight,
     fontFamily: initialFontFamily,
+    fontSize: initialFontSize,
     strokeColor: initialStrokeColor,
     fontUnderline: initialFontUnderline,
     fontLinethrough: initialFontLinethrough,
-    textAlign: initialTextAlign,
   });
 
   // Update properties when editor state changes
@@ -46,6 +50,7 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
         fillColor: editor.getActiveFillColor(),
         fontStyle: editor.getActiveFontStyle() || FONT_STYLE,
         fontWeight: editor.getActiveFontWeight() || FONT_WEIGHT,
+        fontSize: editor.getActiveFontSize(),
         fontFamily: editor.getActiveFontFamily(),
         strokeColor: editor.getActiveStrokeColor(),
         fontUnderline: editor.getActiveFontUnderline(),
@@ -59,6 +64,18 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
   const selectedObject = editor?.selectedObjects[0];
 
   const isText = isTextType(selectedObjectType);
+
+  const onChangeFontSize = (value: number) => {
+    if (!selectedObject) {
+      return;
+    }
+
+    editor?.changeFontSize(value);
+    setProperties(current => ({
+      ...current,
+      fontSize: value,
+    }));
+  };
 
   const onChangeTextAlign = (value: TextAlign) => {
     if (!selectedObject) {
@@ -307,6 +324,11 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
               <AlignRight className='size-4' />
             </Button>
           </Hint>
+        </div>
+      )}
+      {isText && (
+        <div className='flex gap-2 items-center h-full justify-center'>
+          <FontSizeInput value={Number(properties.fontSize)} onChange={onChangeFontSize} />
         </div>
       )}
       <div className='flex gap-2 items-center h-full justify-center'>

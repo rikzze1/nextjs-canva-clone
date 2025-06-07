@@ -6,6 +6,7 @@ import {
   DIAMOND_OPTIONS,
   FILL_COLOR,
   FONT_FAMILY,
+  FONT_SIZE,
   FONT_STYLE,
   FONT_UNDERLINE,
   FONT_WEIGHT,
@@ -133,6 +134,27 @@ const buildEditor = ({
       }
 
       return FONT_UNDERLINE;
+    },
+    changeFontSize: (value: number) => {
+      canvas.getActiveObjects().forEach(object => {
+        if (isTextType(object.type)) {
+          (object as fabric.Textbox).set({ fontSize: value });
+        }
+      });
+      canvas.renderAll();
+    },
+    getActiveFontSize: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return FONT_SIZE;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('fontSize') || FONT_SIZE;
+        return Number(value);
+      }
+
+      return FONT_SIZE;
     },
     changeTextAlign: (value: TextAlign) => {
       canvas.getActiveObjects().forEach(object => {
