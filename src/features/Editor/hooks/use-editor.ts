@@ -14,12 +14,19 @@ import {
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
   STROKE_WIDTH,
+  TEXT_ALIGN,
   TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from '@/features/Editor/constants';
 import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
 import { useCanvasEvents } from '@/features/Editor/hooks/use-canvas-events';
-import { BuildEditorProps, Editor, EditorHookProps, FontStyle } from '@/features/Editor/types';
+import {
+  BuildEditorProps,
+  Editor,
+  EditorHookProps,
+  FontStyle,
+  TextAlign,
+} from '@/features/Editor/types';
 import { isTextType } from '@/features/Editor/utils';
 
 const buildEditor = ({
@@ -126,6 +133,27 @@ const buildEditor = ({
       }
 
       return FONT_UNDERLINE;
+    },
+    changeTextAlign: (value: TextAlign) => {
+      canvas.getActiveObjects().forEach(object => {
+        if (isTextType(object.type)) {
+          (object as fabric.Textbox).set({ textAlign: value });
+        }
+      });
+      canvas.renderAll();
+    },
+    getActiveTextAlign: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return TEXT_ALIGN as TextAlign;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('textAlign') || TEXT_ALIGN;
+        return value as TextAlign;
+      }
+
+      return TEXT_ALIGN as TextAlign;
     },
     changeFontLinethrough: (value: boolean) => {
       canvas.getActiveObjects().forEach(object => {

@@ -62,6 +62,7 @@ export const FONT_SIZE = 32;
 export const FONT_WEIGHT = 400;
 export const FONT_STYLE = 'normal';
 export const FONT_UNDERLINE = false;
+export const TEXT_ALIGN = 'left';
 
 export const CIRCLE_OPTIONS = {
   radius: 150,

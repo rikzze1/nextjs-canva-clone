@@ -2,6 +2,7 @@ import { fabric } from 'fabric';
 import { ITextboxOptions } from 'fabric/fabric-impl';
 
 export type FontStyle = 'normal' | 'italic' | 'oblique';
+export type TextAlign = 'left' | 'center' | 'right' | 'justify';
 
 export type ActiveTool =
   | 'select'
@@ -40,7 +41,10 @@ export type BuildEditorProps = {
 };
 export interface Editor {
   addText: (value: string, options?: ITextboxOptions) => void;
+  getActiveTextAlign: () => TextAlign;
+  changeTextAlign: (value: TextAlign) => void;
   getActiveFontWeight: () => number;
+  changeFontWeight: (value: number) => void;
   getActiveFontUnderline: () => boolean;
   changeFontUnderline: (value: boolean) => void;
   getActiveFontLinethrough: () => boolean;
@@ -48,7 +52,6 @@ export interface Editor {
   getActiveOpacity: () => number;
   changeFontFamily: (value: string) => void;
   getActiveFontFamily: () => string;
-  changeFontWeight: (value: number) => void;
   changeFontStyle: (value: FontStyle) => void;
   getActiveFontStyle: () => FontStyle;
   changeFillColor: (value: string) => void;

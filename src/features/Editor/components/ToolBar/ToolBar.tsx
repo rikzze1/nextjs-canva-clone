@@ -1,15 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { ActiveTool, Editor } from '@/features/Editor/types';
-import { ArrowUp, ArrowDown, ChevronDown } from 'lucide-react';
-import { FaBold, FaItalic, FaStrikethrough, FaUncharted, FaUnderline } from 'react-icons/fa6';
+import { ActiveTool, Editor, TextAlign } from '@/features/Editor/types';
+import { ArrowUp, ArrowDown, ChevronDown, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from 'react-icons/fa6';
 import { BsBorderWidth } from 'react-icons/bs';
 import { RxTransparencyGrid } from 'react-icons/rx';
 import { Hint } from '@/components/Hint/Hint';
 import { Button } from '@/components/ui/button';
-import { isTextType } from '@/features/Editor//utils';
+import { isTextType } from '@/features/Editor/utils';
 import { FONT_STYLE, FONT_WEIGHT } from '@/features/Editor/constants';
 
 interface ToolbarProps {
@@ -26,6 +26,7 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
   const initialFontStyle = editor?.getActiveFontStyle() || FONT_STYLE;
   const initialFontLinethrough = editor?.getActiveFontLinethrough();
   const initialFontUnderline = editor?.getActiveFontUnderline();
+  const initialTextAlign = editor?.getActiveTextAlign();
 
   const [properties, setProperties] = useState({
     fillColor: initialFillColor,
@@ -33,14 +34,43 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
     fontWeight: initialFontWeight,
     fontFamily: initialFontFamily,
     strokeColor: initialStrokeColor,
-    fontUderline: initialFontUnderline,
+    fontUnderline: initialFontUnderline,
     fontLinethrough: initialFontLinethrough,
+    textAlign: initialTextAlign,
   });
+
+  // Update properties when editor state changes
+  useEffect(() => {
+    if (editor) {
+      setProperties({
+        fillColor: editor.getActiveFillColor(),
+        fontStyle: editor.getActiveFontStyle() || FONT_STYLE,
+        fontWeight: editor.getActiveFontWeight() || FONT_WEIGHT,
+        fontFamily: editor.getActiveFontFamily(),
+        strokeColor: editor.getActiveStrokeColor(),
+        fontUnderline: editor.getActiveFontUnderline(),
+        fontLinethrough: editor.getActiveFontLinethrough(),
+        textAlign: editor.getActiveTextAlign(),
+      });
+    }
+  }, [editor, editor?.selectedObjects]);
 
   const selectedObjectType = editor?.selectedObjects[0]?.type;
   const selectedObject = editor?.selectedObjects[0];
 
   const isText = isTextType(selectedObjectType);
+
+  const onChangeTextAlign = (value: TextAlign) => {
+    if (!selectedObject) {
+      return;
+    }
+
+    editor?.changeTextAlign(value);
+    setProperties(current => ({
+      ...current,
+      textAlign: value,
+    }));
+  };
 
   const toggleBold = () => {
     if (!selectedObject) return;
@@ -81,12 +111,12 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
   const toggleUnderline = () => {
     if (!selectedObject) return;
 
-    const newValue = properties.fontUderline ? false : true;
+    const newValue = properties.fontUnderline ? false : true;
 
     editor?.changeFontUnderline(newValue);
     setProperties(current => ({
       ...current,
-      fontUderline: newValue,
+      fontUnderline: newValue,
     }));
   };
 
@@ -110,7 +140,7 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
               backgroundColor: properties.fillColor,
             }}
           >
-            <div className={`${properties.fillColor} size-3 rounded-md`} />
+            <div className='size-3 rounded-md' style={{ backgroundColor: properties.fillColor }} />
           </Button>
         </Hint>
       </div>
@@ -212,7 +242,7 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
               size='icon'
               variant='ghost'
               title='Underline'
-              className={cn(properties.fontUderline && 'bg-gray-200 size-6')}
+              className={cn(properties.fontUnderline && 'bg-gray-200 size-6')}
             >
               <FaUnderline className='size-4' />
             </Button>
@@ -230,6 +260,51 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
               className={cn(properties.fontLinethrough && 'bg-gray-200 size-6')}
             >
               <FaStrikethrough className='size-4' />
+            </Button>
+          </Hint>
+        </div>
+      )}
+      {isText && (
+        <div className='flex gap-2 items-center h-full justify-center'>
+          <Hint label='Align left' side='bottom' sideOffset={5}>
+            <Button
+              onClick={() => onChangeTextAlign('left')}
+              size='icon'
+              variant='ghost'
+              title='Align left'
+              className={cn(properties.textAlign === 'left' && 'bg-gray-200 size-6')}
+            >
+              <AlignLeft className='size-4' />
+            </Button>
+          </Hint>
+        </div>
+      )}
+      {isText && (
+        <div className='flex gap-2 items-center h-full justify-center'>
+          <Hint label='Align center' side='bottom' sideOffset={5}>
+            <Button
+              onClick={() => onChangeTextAlign('center')}
+              size='icon'
+              variant='ghost'
+              title='Align center'
+              className={cn(properties.textAlign === 'center' && 'bg-gray-200 size-6')}
+            >
+              <AlignCenter className='size-4' />
+            </Button>
+          </Hint>
+        </div>
+      )}
+      {isText && (
+        <div className='flex gap-2 items-center h-full justify-center'>
+          <Hint label='Align right' side='bottom' sideOffset={5}>
+            <Button
+              onClick={() => onChangeTextAlign('right')}
+              size='icon'
+              variant='ghost'
+              title='Align right'
+              className={cn(properties.textAlign === 'right' && 'bg-gray-200 size-6')}
+            >
+              <AlignRight className='size-4' />
             </Button>
           </Hint>
         </div>
