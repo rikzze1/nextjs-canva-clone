@@ -6,6 +6,7 @@ import {
   DIAMOND_OPTIONS,
   FILL_COLOR,
   FONT_FAMILY,
+  FONT_STYLE,
   FONT_WEIGHT,
   RECTANGLE_OPTIONS,
   SOFT_RECTANGLE_OPTIONS,
@@ -17,7 +18,7 @@ import {
 } from '@/features/Editor/constants';
 import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
 import { useCanvasEvents } from '@/features/Editor/hooks/use-canvas-events';
-import { BuildEditorProps, Editor, EditorHookProps } from '@/features/Editor/types';
+import { BuildEditorProps, Editor, EditorHookProps, FontStyle } from '@/features/Editor/types';
 import { isTextType } from '@/features/Editor/utils';
 
 const buildEditor = ({
@@ -74,8 +75,16 @@ const buildEditor = ({
 
       return value;
     },
+    changeFontStyle: (value: FontStyle) => {
+      canvas.getActiveObjects().forEach(object => {
+        if (isTextType(object.type)) {
+          (object as fabric.Textbox).set({ fontStyle: value });
+        }
+      });
+      canvas.renderAll();
+    },
     changeFontWeight: (value: number) => {
-      canvas.getActiveObjects().forEach((object) => {
+      canvas.getActiveObjects().forEach(object => {
         if (isTextType(object.type)) {
           (object as fabric.Textbox).set({ fontWeight: value });
         }
@@ -293,6 +302,19 @@ const buildEditor = ({
       }
 
       return fontFamily;
+    },
+    getActiveFontStyle: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return FONT_STYLE as FontStyle;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('fontStyle') || FONT_STYLE;
+        return value as FontStyle;
+      }
+
+      return FONT_STYLE as FontStyle;
     },
     selectedObjects,
   };

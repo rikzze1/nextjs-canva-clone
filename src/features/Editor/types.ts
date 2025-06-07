@@ -1,6 +1,8 @@
 import { fabric } from 'fabric';
 import { ITextboxOptions } from 'fabric/fabric-impl';
 
+export type FontStyle = 'normal' | 'italic' | 'oblique';
+
 export type ActiveTool =
   | 'select'
   | 'shapes'
@@ -45,6 +47,7 @@ export interface Editor {
   sendBackwards: () => void;
   changeFontFamily: (value: string) => void;
   changeFontWeight: (value: number) => void;
+  changeFontStyle: (value: FontStyle) => void;
   changeFillColor: (value: string) => void;
   changeStrokeWidth: (value: number) => void;
   changeStrokeColor: (value: string) => void;
@@ -61,5 +64,6 @@ export interface Editor {
   getActiveStrokeWidth: () => number;
   getActiveStrokeDashArray: () => number[];
   getActiveFontFamily: () => string;
+  getActiveFontStyle: () => FontStyle;
   selectedObjects: fabric.Object[];
 }

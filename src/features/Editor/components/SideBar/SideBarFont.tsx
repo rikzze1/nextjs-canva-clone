@@ -15,7 +15,6 @@ interface FontSidebarProps {
 }
 
 export const FontSidebar = ({ editor, activeTool, onChangeActiveTool }: FontSidebarProps) => {
-
   const value = editor?.getActiveFontFamily();
 
   const onClose = () => {
@@ -39,7 +38,7 @@ export const FontSidebar = ({ editor, activeTool, onChangeActiveTool }: FontSide
               size='lg'
               className={cn(
                 'w-full h-16 justify-start text-left',
-                value === font && "border-2 border-blue-500"
+                value === font && 'border-2 border-blue-500'
               )}
               style={{
                 fontFamily: font,
