@@ -5,12 +5,13 @@ import {
   CIRCLE_OPTIONS,
   DIAMOND_OPTIONS,
   FILL_COLOR,
+  FONT_FAMILY,
   RECTANGLE_OPTIONS,
   SOFT_RECTANGLE_OPTIONS,
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
   STROKE_WIDTH,
-  FONT_FAMILY,
+  TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from '@/features/Editor/constants';
 import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
@@ -53,6 +54,14 @@ const buildEditor = ({
   };
 
   return {
+    addText: (value, options) => {
+      const object = new fabric.Textbox(value, {
+        ...TEXT_OPTIONS,
+        fill: fillColor,
+        ...options,
+      });
+      addToCanvas(object);
+    },
     getActiveOpacity: () => {
       const selectedObject = selectedObjects[0];
 
@@ -92,7 +101,8 @@ const buildEditor = ({
       setFontFamily(value);
       canvas.getActiveObjects().forEach(object => {
         if (isTextType(object.type)) {
-          object.set({ fontFamily: value });
+          // Type assertion for text objects
+          (object as fabric.Textbox).set({ fontFamily: value });
         }
       });
       canvas.renderAll();
@@ -251,6 +261,19 @@ const buildEditor = ({
       const value = selectedObject.get('strokeDashArray') || strokeDashArray;
 
       return value;
+    },
+    getActiveFontFamily: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return fontFamily;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('fontFamily') || fontFamily;
+        return value;
+      }
+
+      return fontFamily;
     },
     selectedObjects,
   };

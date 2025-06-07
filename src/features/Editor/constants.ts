@@ -1,5 +1,26 @@
 import * as material from 'material-colors';
 
+export const fonts = [
+  'Arial',
+  'Arial Black',
+  'Verdana',
+  'Helvetica',
+  'Tahoma',
+  'Trebuchet MS',
+  'Times New Roman',
+  'Geogia',
+  'Garamond',
+  'Courier New',
+  'Brush Script MT',
+  'Palatino',
+  'Bookman',
+  'Comic Sans MS',
+  'Impact',
+  'Lucida Sans Unicode',
+  'Geneva',
+  'Lucida Console',
+];
+
 export const selectionDependentTools = [
   'fill',
   'font',
@@ -37,6 +58,7 @@ export const STROKE_COLOR = 'rgba(0,0,0,1)';
 export const STROKE_WIDTH = 2;
 export const STROKE_DASH_ARRAY = [];
 export const FONT_FAMILY = 'Arial';
+export const FONT_SIZE = 32;
 
 export const CIRCLE_OPTIONS = {
   radius: 150,
@@ -75,6 +97,14 @@ export const TRIANGLE_OPTIONS = {
   width: 400,
   height: 400,
   angle: 0,
+};
+
+export const TEXT_OPTIONS = {
+  type: 'textbox',
+  radius: 150,
+  fill: FILL_COLOR,
+  fontSize: FONT_SIZE,
+  fontFamily: FONT_FAMILY,
 };
 
 export const DIAMOND_OPTIONS = {

@@ -1,4 +1,5 @@
 import { fabric } from 'fabric';
+import { ITextboxOptions } from 'fabric/fabric-impl';
 
 export type ActiveTool =
   | 'select'
@@ -36,11 +37,12 @@ export type BuildEditorProps = {
   setFontFamily: (value: string) => void;
 };
 export interface Editor {
-  changeFontFamily: (value: string) => void;
+  addText: (value: string, options?: ITextboxOptions) => void;
   getActiveOpacity: () => number;
   changeOpacity: (value: number) => void;
   bringForward: () => void;
   sendBackwards: () => void;
+  changeFontFamily: (value: string) => void;
   changeFillColor: (value: string) => void;
   changeStrokeWidth: (value: number) => void;
   changeStrokeColor: (value: string) => void;
@@ -56,5 +58,6 @@ export interface Editor {
   getActiveStrokeColor: () => string;
   getActiveStrokeWidth: () => number;
   getActiveStrokeDashArray: () => number[];
+  getActiveFontFamily: () => string;
   selectedObjects: fabric.Object[];
 }

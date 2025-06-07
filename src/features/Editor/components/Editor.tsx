@@ -4,19 +4,21 @@ import clsx from 'clsx';
 import { fabric } from 'fabric';
 import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
 import { selectionDependentTools } from '@/features/Editor/constants';
+import { ActiveTool } from '@/features/Editor/types';
 import { useEditor } from '@/features/Editor/hooks/use-editor';
 
 import { EditorVariants, variants } from '@/features/Editor/components/Editor.variance';
-import { Footer } from '@/features/Editor/components/Footer/Footer';
+// import { Footer } from '@/features/Editor/components/Footer/Footer';
 import { NavBar } from '@/features/Editor/components/NavBar/NavBar';
 import { ShapeSideBar } from '@/features/Editor/components/SideBar/ShapeSideBar';
+import { TextSidebar } from '@/features/Editor/components/SideBar/SideBarText';
 import { SideBar } from '@/features/Editor/components/SideBar/SideBar';
 import { FillColorSidebar } from '@/features/Editor/components/SideBar/SideBarFillColor';
 import { StrokeColorSidebar } from '@/features/Editor/components/SideBar/SideBarStrokeColor';
 import { StrokeWidthSidebar } from '@/features/Editor/components/SideBar/SideBarStrokeWidth';
+import { FontSidebar } from '@/features/Editor/components/SideBar/SideBarFont';
 import { OpacitySidebar } from '@/features/Editor/components/SideBar/SideBarOpacity';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
-import { ActiveTool } from '@/features/Editor/types';
 
 type EditorProps = ComponentProps<'canvas'> & EditorVariants;
 
@@ -103,6 +105,16 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
+        <TextSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <FontSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
         <main className='bg-muted flex-1 overflow-auto relative flex flex-col' tabIndex={0}>
           <ToolBar
             editor={editor}
@@ -112,7 +124,7 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           <div className='flex-1 flex items-center justify-center'>
             <canvas ref={canvasRef} {...props} />
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </main>
       </div>
     </div>
