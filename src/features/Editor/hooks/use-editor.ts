@@ -10,6 +10,7 @@ import {
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
   STROKE_WIDTH,
+  FONT_FAMILY,
   TRIANGLE_OPTIONS,
 } from '@/features/Editor/constants';
 import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
@@ -20,6 +21,8 @@ import { isTextType } from '@/features/Editor/utils';
 const buildEditor = ({
   canvas,
   fillColor,
+  fontFamily,
+  setFontFamily,
   setFillColor,
   strokeColor,
   setStrokeColor,
@@ -84,6 +87,15 @@ const buildEditor = ({
 
       const workspace = getWorkspace();
       workspace?.sendToBack();
+    },
+    changeFontFamily: (value: string) => {
+      setFontFamily(value);
+      canvas.getActiveObjects().forEach(object => {
+        if (isTextType(object.type)) {
+          object.set({ fontFamily: value });
+        }
+      });
+      canvas.renderAll();
     },
     changeFillColor: (value: string) => {
       setFillColor(value);
@@ -249,6 +261,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([]);
 
+  const [fontFamily, setFontFamily] = useState(FONT_FAMILY);
   const [fillColor, setFillColor] = useState(FILL_COLOR);
   const [strokeColor, setStrokeColor] = useState(STROKE_COLOR);
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
@@ -272,6 +285,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
         fillColor,
         strokeColor,
         strokeWidth,
+        fontFamily,
+        setFontFamily,
         setFillColor,
         setStrokeColor,
         setStrokeWidth,
@@ -281,7 +296,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
       });
     }
     return undefined;
-  }, [canvas, fillColor, strokeColor, strokeWidth, selectedObjects, strokeDashArray]);
+  }, [canvas, fillColor, strokeColor, strokeWidth, selectedObjects, strokeDashArray, fontFamily]);
 
   const init = useCallback(
     ({
