@@ -6,6 +6,7 @@ import {
   DIAMOND_OPTIONS,
   FILL_COLOR,
   FONT_FAMILY,
+  FONT_WEIGHT,
   RECTANGLE_OPTIONS,
   SOFT_RECTANGLE_OPTIONS,
   STROKE_COLOR,
@@ -73,6 +74,14 @@ const buildEditor = ({
 
       return value;
     },
+    changeFontWeight: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          (object as fabric.Textbox).set({ fontWeight: value });
+        }
+      });
+      canvas.renderAll();
+    },
     changeOpacity: (value: number) => {
       canvas.getActiveObjects().forEach(object => {
         object.set({ opacity: value });
@@ -101,7 +110,6 @@ const buildEditor = ({
       setFontFamily(value);
       canvas.getActiveObjects().forEach(object => {
         if (isTextType(object.type)) {
-          // Type assertion for text objects
           (object as fabric.Textbox).set({ fontFamily: value });
         }
       });
@@ -228,8 +236,6 @@ const buildEditor = ({
       }
 
       const value = selectedObject.get('fill') || fillColor;
-
-      // curently, gradients and patterns are no supported
       return value as string;
     },
     getActiveStrokeColor: () => {
@@ -261,6 +267,19 @@ const buildEditor = ({
       const value = selectedObject.get('strokeDashArray') || strokeDashArray;
 
       return value;
+    },
+    getActiveFontWeight: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return FONT_WEIGHT;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('fontWeight') || FONT_WEIGHT;
+        return typeof value === 'number' ? value : parseInt(String(value)) || FONT_WEIGHT;
+      }
+
+      return FONT_WEIGHT;
     },
     getActiveFontFamily: () => {
       const selectedObject = selectedObjects[0];

@@ -1,13 +1,16 @@
 'use client';
 
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ActiveTool, Editor } from '@/features/Editor/types';
 import { ArrowUp, ArrowDown, ChevronDown } from 'lucide-react';
+import { FaBold } from "react-icons/fa6";
 import { BsBorderWidth } from 'react-icons/bs';
 import { RxTransparencyGrid } from 'react-icons/rx';
 import { Hint } from '@/components/Hint/Hint';
 import { Button } from '@/components/ui/button';
 import { isTextType } from '@/features/Editor//utils';
+import { FONT_WEIGHT } from '../../constants';
 
 interface ToolbarProps {
   editor: Editor | undefined;
@@ -18,10 +21,30 @@ interface ToolbarProps {
 export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps) => {
   const fillColor = editor?.getActiveFillColor();
   const strokeColor = editor?.getActiveStrokeColor();
+  const fontFamily = editor?.getActiveFontFamily();
+
+  const initialFontWeight = editor?.getActiveFontWeight() || FONT_WEIGHT;
+
+  const [properties, setProperties] = useState({
+    fontWeight: initialFontWeight
+  });
 
   const selectedObjectType = editor?.selectedObjects[0]?.type;
 
   const isText = isTextType(selectedObjectType);
+
+  const toggleBold = () => {
+    const selectedObject = editor?.selectedObjects[0];
+    if (!selectedObject) return
+
+    const newValue = properties.fontWeight > 500 ? 500 : 700;
+    editor?.changeFontWeight(newValue);
+    setProperties((current) => ({
+      ...current,
+      fontWeight: newValue,
+
+    }))
+  }
 
   if (!editor || editor?.selectedObjects.length === 0) {
     return (
@@ -86,25 +109,45 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
           </Hint>
         </div>
       )}
-      <div className='flex gap-2 items-center w-fit h-full justify-center'>
-        <Hint label='Font' side='bottom' sideOffset={5}>
-          <Button
-            onClick={() => onChangeActiveTool('font')}
-            size='icon'
-            variant='ghost'
-            title='Font family'
-            className={cn(
-              activeTool === 'font' && 'bg-gray-100',
-              'w-full p-1 h-8 hover:bg-gray-200'
-            )}
-          >
-            <div className='max-w-[60px] text-black truncate text-sm'>
-              {editor?.getActiveFontFamily() || 'Arial'}
-            </div>
-            <ChevronDown className='size-4 ml-2 shrink-0' />
-          </Button>
-        </Hint>
-      </div>
+      {isText && (
+        <div className='flex gap-2 items-center w-fit h-full justify-center'>
+          <Hint label='Font' side='bottom' sideOffset={5}>
+            <Button
+              onClick={() => onChangeActiveTool('font')}
+              size='icon'
+              variant='ghost'
+              title='Font family'
+              className={cn(
+                activeTool === 'font' && 'bg-gray-100',
+                'w-full p-1 h-8 hover:bg-gray-200'
+              )}
+            >
+              <div className='max-w-[60px] text-black truncate text-sm'>
+                {fontFamily || 'Arial'}
+              </div>
+              <ChevronDown className='size-4 ml-2 shrink-0' />
+            </Button>
+          </Hint>
+        </div>
+      )}
+      {isText && (
+        <div className='flex gap-2 items-center h-full justify-center'>
+          <Hint label='Bold' side='bottom' sideOffset={5}>
+            <Button
+              onClick={toggleBold}
+              size='icon'
+              variant='ghost'
+              title='Bold'
+              className={cn(
+                properties.fontWeight > 500 && "bg-gray-100"
+              )}
+            >
+              <FaBold className='size-4' />
+            </Button>
+          </Hint>
+        </div>
+
+      )}
       <div className='flex gap-2 items-center h-full justify-center'>
         <Hint label='Bring forward' side='bottom' sideOffset={5}>
           <Button

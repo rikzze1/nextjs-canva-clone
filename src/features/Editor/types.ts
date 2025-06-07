@@ -38,11 +38,13 @@ export type BuildEditorProps = {
 };
 export interface Editor {
   addText: (value: string, options?: ITextboxOptions) => void;
+  getActiveFontWeight: () => number;
   getActiveOpacity: () => number;
   changeOpacity: (value: number) => void;
   bringForward: () => void;
   sendBackwards: () => void;
   changeFontFamily: (value: string) => void;
+  changeFontWeight: (value: number) => void;
   changeFillColor: (value: string) => void;
   changeStrokeWidth: (value: number) => void;
   changeStrokeColor: (value: string) => void;
