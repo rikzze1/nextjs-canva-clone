@@ -29,10 +29,12 @@ export type BuildEditorProps = {
   strokeWidth: number;
   selectedObjects: fabric.Object[];
   strokeDashArray: number[];
+  fontFamily: string;
   setFillColor: (value: string) => void;
   setStrokeColor: (value: string) => void;
   setStrokeWidth: (value: number) => void;
   setStrokeDashArray: (value: number[]) => void;
+  setFontFamily: (value: string) => void;
 };
 export interface Editor {
   addText: (value: string, options?: ITextboxOptions) => void;
@@ -40,6 +42,7 @@ export interface Editor {
   changeOpacity: (value: number) => void;
   bringForward: () => void;
   sendBackwards: () => void;
+  changeFontFamily: (value: string) => void;
   changeFillColor: (value: string) => void;
   changeStrokeWidth: (value: number) => void;
   changeStrokeColor: (value: string) => void;
@@ -55,5 +58,6 @@ export interface Editor {
   getActiveStrokeColor: () => string;
   getActiveStrokeWidth: () => number;
   getActiveStrokeDashArray: () => number[];
+  getActiveFontFamily: () => string;
   selectedObjects: fabric.Object[];
 }

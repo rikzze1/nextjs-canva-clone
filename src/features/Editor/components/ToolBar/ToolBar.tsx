@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { ActiveTool, Editor } from '@/features/Editor/types';
-import { ArrowUp, ArrowDown } from 'lucide-react';
+import { ArrowUp, ArrowDown, ChevronDown } from 'lucide-react';
 import { BsBorderWidth } from 'react-icons/bs';
 import { RxTransparencyGrid } from 'react-icons/rx';
 import { Hint } from '@/components/Hint/Hint';
@@ -86,6 +86,25 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
           </Hint>
         </div>
       )}
+      <div className='flex gap-2 items-center w-fit h-full justify-center'>
+        <Hint label='Font' side='bottom' sideOffset={5}>
+          <Button
+            onClick={() => onChangeActiveTool('font')}
+            size='icon'
+            variant='ghost'
+            title='Font family'
+            className={cn(
+              activeTool === 'font' && 'bg-gray-100',
+              'w-full p-1 h-8 hover:bg-gray-200'
+            )}
+          >
+            <div className='max-w-[60px] text-black truncate text-sm'>
+              {editor?.getActiveFontFamily() || 'Arial'}
+            </div>
+            <ChevronDown className='size-4 ml-2 shrink-0' />
+          </Button>
+        </Hint>
+      </div>
       <div className='flex gap-2 items-center h-full justify-center'>
         <Hint label='Bring forward' side='bottom' sideOffset={5}>
           <Button
