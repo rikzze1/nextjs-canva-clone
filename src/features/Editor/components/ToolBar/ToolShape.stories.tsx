@@ -4,14 +4,21 @@ import { Circle, Square, Triangle } from 'lucide-react';
 import { ToolShape } from '@/features/Editor/components/ToolBar/ToolShape';
 
 const meta = {
-  title: 'features/ToolShape',
+  title: 'features/Editor/ToolShape',
   component: ToolShape,
+  parameters: {
+    docs: {
+      description: {
+        component: 'sho sho sho',
+      },
+    },
+  },
   args: {
     onClick: () => {},
     icon: Circle,
     iconClassName: 'fill-black',
   },
-} satisfies Meta;
+} satisfies Meta<typeof ToolShape>;
 
 export default meta;
 

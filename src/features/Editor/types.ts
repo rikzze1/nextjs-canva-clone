@@ -34,6 +34,8 @@ export type BuildEditorProps = {
   setStrokeDashArray: (value: number[]) => void;
 };
 export interface Editor {
+  getActiveOpacity: () => number;
+  changeOpacity: (value: number) => void;
   bringForward: () => void;
   sendBackwards: () => void;
   changeFillColor: (value: string) => void;
