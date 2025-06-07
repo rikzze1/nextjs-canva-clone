@@ -7,6 +7,7 @@ import {
   FILL_COLOR,
   FONT_FAMILY,
   FONT_STYLE,
+  FONT_UNDERLINE,
   FONT_WEIGHT,
   RECTANGLE_OPTIONS,
   SOFT_RECTANGLE_OPTIONS,
@@ -64,6 +65,15 @@ const buildEditor = ({
       });
       addToCanvas(object);
     },
+    getActiveFillColor: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return fillColor;
+      }
+
+      const value = selectedObject.get('fill') || fillColor;
+      return value as string;
+    },
     getActiveOpacity: () => {
       const selectedObject = selectedObjects[0];
 
@@ -83,6 +93,61 @@ const buildEditor = ({
       });
       canvas.renderAll();
     },
+    getActiveFontStyle: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return FONT_STYLE as FontStyle;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('fontStyle') || FONT_STYLE;
+        return value as FontStyle;
+      }
+
+      return FONT_STYLE as FontStyle;
+    },
+    changeFontUnderline: (value: boolean) => {
+      canvas.getActiveObjects().forEach(object => {
+        if (isTextType(object.type)) {
+          (object as fabric.Textbox).set({ underline: value });
+        }
+      });
+      canvas.renderAll();
+    },
+    getActiveFontUnderline: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return FONT_UNDERLINE;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('underline') || FONT_UNDERLINE;
+        return Boolean(value);
+      }
+
+      return FONT_UNDERLINE;
+    },
+    changeFontLinethrough: (value: boolean) => {
+      canvas.getActiveObjects().forEach(object => {
+        if (isTextType(object.type)) {
+          (object as fabric.Textbox).set({ linethrough: value });
+        }
+      });
+      canvas.renderAll();
+    },
+    getActiveFontLinethrough: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return false;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('linethrough') || false;
+        return Boolean(value);
+      }
+
+      return false;
+    },
     changeFontWeight: (value: number) => {
       canvas.getActiveObjects().forEach(object => {
         if (isTextType(object.type)) {
@@ -90,6 +155,19 @@ const buildEditor = ({
         }
       });
       canvas.renderAll();
+    },
+    getActiveFontWeight: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return FONT_WEIGHT;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('fontWeight') || FONT_WEIGHT;
+        return typeof value === 'number' ? value : parseInt(String(value)) || FONT_WEIGHT;
+      }
+
+      return FONT_WEIGHT;
     },
     changeOpacity: (value: number) => {
       canvas.getActiveObjects().forEach(object => {
@@ -124,6 +202,19 @@ const buildEditor = ({
       });
       canvas.renderAll();
     },
+    getActiveFontFamily: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return fontFamily;
+      }
+
+      if (isTextType(selectedObject.type)) {
+        const value = (selectedObject as fabric.Textbox).get('fontFamily') || fontFamily;
+        return value;
+      }
+
+      return fontFamily;
+    },
     changeFillColor: (value: string) => {
       setFillColor(value);
       canvas.getActiveObjects().forEach(object => {
@@ -138,12 +229,32 @@ const buildEditor = ({
       });
       canvas.renderAll();
     },
+    getActiveStrokeWidth: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return strokeWidth;
+      }
+
+      const value = selectedObject.get('strokeWidth') || strokeWidth;
+
+      return value;
+    },
     changeStrokeDashArray: (value: number[]) => {
       setStrokeDashArray(value);
       canvas.getActiveObjects().forEach(object => {
         object.set({ strokeDashArray: value });
       });
       canvas.renderAll();
+    },
+    getActiveStrokeDashArray: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return strokeDashArray;
+      }
+
+      const value = selectedObject.get('strokeDashArray') || strokeDashArray;
+
+      return value;
     },
     changeStrokeColor: (value: string) => {
       setStrokeColor(value);
@@ -155,6 +266,16 @@ const buildEditor = ({
         object.set({ stroke: value });
       });
       canvas.renderAll();
+    },
+    getActiveStrokeColor: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return strokeColor;
+      }
+
+      const value = selectedObject.get('stroke') || strokeColor;
+
+      return value;
     },
     addCircle: () => {
       const object = new fabric.Circle({
@@ -238,84 +359,6 @@ const buildEditor = ({
       addToCanvas(object);
     },
     canvas,
-    getActiveFillColor: () => {
-      const selectedObject = selectedObjects[0];
-      if (!selectedObject) {
-        return fillColor;
-      }
-
-      const value = selectedObject.get('fill') || fillColor;
-      return value as string;
-    },
-    getActiveStrokeColor: () => {
-      const selectedObject = selectedObjects[0];
-      if (!selectedObject) {
-        return strokeColor;
-      }
-
-      const value = selectedObject.get('stroke') || strokeColor;
-
-      return value;
-    },
-    getActiveStrokeWidth: () => {
-      const selectedObject = selectedObjects[0];
-      if (!selectedObject) {
-        return strokeWidth;
-      }
-
-      const value = selectedObject.get('strokeWidth') || strokeWidth;
-
-      return value;
-    },
-    getActiveStrokeDashArray: () => {
-      const selectedObject = selectedObjects[0];
-      if (!selectedObject) {
-        return strokeDashArray;
-      }
-
-      const value = selectedObject.get('strokeDashArray') || strokeDashArray;
-
-      return value;
-    },
-    getActiveFontWeight: () => {
-      const selectedObject = selectedObjects[0];
-      if (!selectedObject) {
-        return FONT_WEIGHT;
-      }
-
-      if (isTextType(selectedObject.type)) {
-        const value = (selectedObject as fabric.Textbox).get('fontWeight') || FONT_WEIGHT;
-        return typeof value === 'number' ? value : parseInt(String(value)) || FONT_WEIGHT;
-      }
-
-      return FONT_WEIGHT;
-    },
-    getActiveFontFamily: () => {
-      const selectedObject = selectedObjects[0];
-      if (!selectedObject) {
-        return fontFamily;
-      }
-
-      if (isTextType(selectedObject.type)) {
-        const value = (selectedObject as fabric.Textbox).get('fontFamily') || fontFamily;
-        return value;
-      }
-
-      return fontFamily;
-    },
-    getActiveFontStyle: () => {
-      const selectedObject = selectedObjects[0];
-      if (!selectedObject) {
-        return FONT_STYLE as FontStyle;
-      }
-
-      if (isTextType(selectedObject.type)) {
-        const value = (selectedObject as fabric.Textbox).get('fontStyle') || FONT_STYLE;
-        return value as FontStyle;
-      }
-
-      return FONT_STYLE as FontStyle;
-    },
     selectedObjects,
   };
 };

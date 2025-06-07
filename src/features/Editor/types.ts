@@ -41,17 +41,27 @@ export type BuildEditorProps = {
 export interface Editor {
   addText: (value: string, options?: ITextboxOptions) => void;
   getActiveFontWeight: () => number;
+  getActiveFontUnderline: () => boolean;
+  changeFontUnderline: (value: boolean) => void;
+  getActiveFontLinethrough: () => boolean;
+  changeFontLinethrough: (value: boolean) => void;
   getActiveOpacity: () => number;
+  changeFontFamily: (value: string) => void;
+  getActiveFontFamily: () => string;
+  changeFontWeight: (value: number) => void;
+  changeFontStyle: (value: FontStyle) => void;
+  getActiveFontStyle: () => FontStyle;
+  changeFillColor: (value: string) => void;
+  getActiveFillColor: () => string;
+  changeStrokeWidth: (value: number) => void;
+  getActiveStrokeWidth: () => number;
+  changeStrokeColor: (value: string) => void;
+  getActiveStrokeColor: () => string;
+  changeStrokeDashArray: (value: number[]) => void;
+  getActiveStrokeDashArray: () => number[];
   changeOpacity: (value: number) => void;
   bringForward: () => void;
   sendBackwards: () => void;
-  changeFontFamily: (value: string) => void;
-  changeFontWeight: (value: number) => void;
-  changeFontStyle: (value: FontStyle) => void;
-  changeFillColor: (value: string) => void;
-  changeStrokeWidth: (value: number) => void;
-  changeStrokeColor: (value: string) => void;
-  changeStrokeDashArray: (value: number[]) => void;
   addCircle: () => void;
   addSoftRectangle: () => void;
   addRectangle: () => void;
@@ -59,11 +69,5 @@ export interface Editor {
   addInverseTriangle: () => void;
   addDiamond: () => void;
   canvas: fabric.Canvas;
-  getActiveFillColor: () => string;
-  getActiveStrokeColor: () => string;
-  getActiveStrokeWidth: () => number;
-  getActiveStrokeDashArray: () => number[];
-  getActiveFontFamily: () => string;
-  getActiveFontStyle: () => FontStyle;
   selectedObjects: fabric.Object[];
 }

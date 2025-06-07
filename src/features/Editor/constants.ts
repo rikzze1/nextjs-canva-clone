@@ -60,7 +60,8 @@ export const STROKE_DASH_ARRAY = [];
 export const FONT_FAMILY = 'Arial';
 export const FONT_SIZE = 32;
 export const FONT_WEIGHT = 400;
-export const FONT_STYLE = 'italic';
+export const FONT_STYLE = 'normal';
+export const FONT_UNDERLINE = false;
 
 export const CIRCLE_OPTIONS = {
   radius: 150,
