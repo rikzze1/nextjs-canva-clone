@@ -17,6 +17,7 @@ import { FillColorSidebar } from '@/features/Editor/components/SideBar/SideBarFi
 import { StrokeColorSidebar } from '@/features/Editor/components/SideBar/SideBarStrokeColor';
 import { StrokeWidthSidebar } from '@/features/Editor/components/SideBar/SideBarStrokeWidth';
 import { FontSidebar } from '@/features/Editor/components/SideBar/SideBarFont';
+import { ImageSidebar } from '@/features/Editor/components/SideBar/SideBarImage';
 import { OpacitySidebar } from '@/features/Editor/components/SideBar/SideBarOpacity';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
 
@@ -111,6 +112,11 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <FontSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <ImageSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
