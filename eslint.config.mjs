@@ -19,7 +19,6 @@ const eslintConfig = [
       semi: ['error', 'always'],
       'semi-spacing': ['error', { before: false, after: true }],
       'prefer-const': 'error',
-      'no-unused-vars': 'warn',
       'no-undef': 'error',
     },
   },

@@ -6,7 +6,15 @@ import { isTextType } from '@/features/Editor/utils';
 import { FONT_STYLE, FONT_WEIGHT } from '@/features/Editor/constants';
 import { ActiveTool, Editor, TextAlign } from '@/features/Editor/types';
 
-import { ArrowUp, ArrowDown, ChevronDown, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+import {
+  ArrowUp,
+  ArrowDown,
+  ChevronDown,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Trash,
+} from 'lucide-react';
 import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from 'react-icons/fa6';
 import { BsBorderWidth } from 'react-icons/bs';
 import { RxTransparencyGrid } from 'react-icons/rx';
@@ -365,6 +373,13 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
             className={cn(activeTool === 'opacity' && 'bg-gray-100')}
           >
             <RxTransparencyGrid className='size-4' />
+          </Button>
+        </Hint>
+      </div>
+      <div className='flex gap-2 items-center h-full justify-center'>
+        <Hint label='Delete' side='bottom' sideOffset={5}>
+          <Button onClick={() => editor?.delete()} size='icon' variant='ghost' title='Delete'>
+            <Trash className='size-4' />
           </Button>
         </Hint>
       </div>

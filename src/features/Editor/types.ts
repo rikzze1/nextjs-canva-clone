@@ -40,6 +40,7 @@ export type BuildEditorProps = {
   setFontFamily: (value: string) => void;
 };
 export interface Editor {
+  delete: () => void;
   addText: (value: string, options?: ITextboxOptions) => void;
   getActiveFontSize: () => number;
   changeFontSize: (value: number) => void;
