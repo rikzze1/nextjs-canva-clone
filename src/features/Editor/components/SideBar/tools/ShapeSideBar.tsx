@@ -1,8 +1,8 @@
 'use client';
 
-import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { Circle, Diamond, Square, Squircle, Triangle } from 'lucide-react';
 
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { ToolShape } from '@/features/Editor/components/ToolBar/ToolShape';
 import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideBarClose';
 import { ToolSideBarHeader } from '@/features/Editor/components/ToolBar/ToolSideBarHeader';

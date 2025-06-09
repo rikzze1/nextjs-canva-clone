@@ -28,7 +28,7 @@ import {
   FontStyle,
   TextAlign,
 } from '@/features/Editor/types';
-import { isTextType } from '@/features/Editor/utils';
+import { createFilter, isTextType } from '@/features/Editor/utils';
 
 const buildEditor = ({
   canvas,
@@ -65,6 +65,20 @@ const buildEditor = ({
   };
 
   return {
+    changeImageFilter: (value: string) => {
+      const objects = canvas.getActiveObjects();
+      objects.forEach(object => {
+        if (object.type === 'image') {
+          const imageObject = object as fabric.Image;
+
+          const effect = createFilter(value);
+
+          imageObject.filters = effect ? [effect] : [];
+          imageObject.applyFilters();
+          canvas.renderAll();
+        }
+      });
+    },
     addImage: (value: string) => {
       fabric.Image.fromURL(
         value,

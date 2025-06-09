@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ChromePicker, CirclePicker } from 'react-color';
 
-import { colors } from '@/features/Editor/constants';
+import { COLORS } from '@/features/Editor/constants';
 
 import { rgbaObectToString } from '@/features/Editor/utils';
 
@@ -40,7 +40,7 @@ export const ColorPicker = ({ value, onChange }: ColorPickerProps) => {
       />
       <CirclePicker
         color={value}
-        colors={colors}
+        colors={COLORS}
         onChangeComplete={color => {
           const formattedValue = rgbaObectToString(color.rgb);
           onChange(formattedValue);

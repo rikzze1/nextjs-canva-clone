@@ -2,20 +2,21 @@
 
 import { cn } from '@/lib/utils';
 import { ActiveTool, Editor } from '@/features/Editor/types';
+import { FILTERS } from '@/features/Editor/constants';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideBarClose';
 import { ToolSideBarHeader } from '@/features/Editor/components/ToolBar/ToolSideBarHeader';
 import { Button } from '@/components/ui/button';
-import { fonts } from '@/features/Editor/constants';
 
-interface FontSidebarProps {
+interface FilterSidebarProps {
   editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
 }
 
-export const FontSidebar = ({ editor, activeTool, onChangeActiveTool }: FontSidebarProps) => {
-  const value = editor?.getActiveFontFamily();
+export const FilterSidebar = ({ editor, activeTool, onChangeActiveTool }: FilterSidebarProps) => {
+  const value = null;
 
   const onClose = () => {
     onChangeActiveTool('select');
@@ -25,29 +26,25 @@ export const FontSidebar = ({ editor, activeTool, onChangeActiveTool }: FontSide
     <aside
       className={cn(
         'bg-white relative border-r border-gray-200 z-[40] w-[360px] h-full flex flex-col overflow-hidden',
-        activeTool === 'font' ? 'visible' : 'hidden'
+        activeTool === 'filter' ? 'visible' : 'hidden'
       )}
     >
-      <ToolSideBarHeader title='Text' description='Change the text font' />
+      <ToolSideBarHeader title='Filters' description='Apply a filter to your selected image' />
       <ScrollArea className='flex-1 overflow-y-auto'>
         <div className='p-4 space-y-2'>
-          {fonts.map(font => (
+          {FILTERS.map(filter => (
             <Button
-              key={font}
+              key={filter}
               variant='secondary'
               size='lg'
+              title='filters'
               className={cn(
-                'w-full h-16 justify-start text-left',
-                value === font && 'border-2 border-blue-500'
+                'w-full h-16 justify-start hover:bg-gray-200 text-left',
+                value === filter && 'border-2 border-blue-500'
               )}
-              style={{
-                fontFamily: font,
-                fontSize: '16px',
-                padding: '8px 16px',
-              }}
-              onClick={() => editor?.changeFontFamily(font)}
+              onClick={() => editor?.changeImageFilter(filter)}
             >
-              {font}
+              {filter}
             </Button>
           ))}
         </div>

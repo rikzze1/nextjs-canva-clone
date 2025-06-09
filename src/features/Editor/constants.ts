@@ -1,6 +1,32 @@
 import * as material from 'material-colors';
 
-export const fonts = [
+export const FILTERS = [
+  'none',
+  'polaroid',
+  'sepia',
+  'kodachrome',
+  'contrast',
+  'brightness',
+  'greyscale',
+  'brownie',
+  'vintage',
+  'technicolor',
+  'pixelate',
+  'invert',
+  'blur',
+  'sharpen',
+  'emboss',
+  'removecolor',
+  'blacknwhite',
+  'vibrance',
+  'blendcolor',
+  'huerotate',
+  'resize',
+  'saturation',
+  'gamma',
+];
+
+export const FONTS = [
   'Arial',
   'Arial Black',
   'Verdana',
@@ -21,7 +47,7 @@ export const fonts = [
   'Lucida Console',
 ];
 
-export const selectionDependentTools = [
+export const SELECTION_DEPENT_TOOLS = [
   'fill',
   'font',
   'filter',
@@ -31,7 +57,7 @@ export const selectionDependentTools = [
   'stroke-width',
 ];
 
-export const colors = [
+export const COLORS = [
   material.red['500'],
   material.pink['500'],
   material.purple['500'],
