@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideBarClose';
 import { ToolSideBarHeader } from '@/features/Editor/components/ToolBar/ToolSideBarHeader';
 import { ActiveTool, Editor } from '@/features/Editor/types';
-import { useGenerateImage } from '@/features/images/services/mutations/use-generate-image';
+import { useGenerateImage } from '@/features/Images/services/mutations/use-generate-image';
 
 interface SidebarAIProps {
   editor: Editor | undefined;
@@ -31,7 +31,7 @@ export const SidebarAi = ({ editor, activeTool, onChangeActiveTool }: SidebarAIP
         onSuccess: ({ data }) => {
           editor?.addImage(data);
         },
-        onError: (error: any) => {
+        onError: () => {
           alert(
             'AI image generation is currently disabled. The developer has disabled this feature as it requires payment for the AI API.'
           );

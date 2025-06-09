@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideBarClose';
 import { ToolSideBarHeader } from '@/features/Editor/components/ToolBar/ToolSideBarHeader';
 
-import { useGetImages } from '@/features/images/services/queries/use-get-images';
+import { useGetImages } from '@/features/Images/services/queries/use-get-images';
 
 interface ImageSidebarProps {
   editor: Editor | undefined;
@@ -87,7 +87,7 @@ export const ImageSidebar = ({ editor, activeTool, onChangeActiveTool }: ImageSi
             onClientUploadComplete={res => {
               setIsUploading(false);
               if (res && res[0]) {
-                editor?.addImage(res[0].url || res[0].ufsUrl);
+                editor?.addImage(res[0].ufsUrl || res[0].ufsUrl);
               }
             }}
             onUploadError={error => {
@@ -129,7 +129,7 @@ export const ImageSidebar = ({ editor, activeTool, onChangeActiveTool }: ImageSi
                   <Link
                     target='_blank'
                     href={image.links.html}
-                    className='opacity-0 group-hover:opacity-100 absolute left-0 bottom-0 w-full text-[10px] truncate text-white hover:underline p-1 bg-black/50 text-left'
+                    className='opacity-0 group-hover:opacity-100 absolute left-0 bottom-0 w-full text-[10px] truncate hover:underline p-1 bg-black/50 text-left'
                   >
                     {image.user.name}
                   </Link>
