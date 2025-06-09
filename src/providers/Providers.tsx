@@ -1,5 +1,6 @@
 'use client';
 
+import React from "react";
 import { QueryProviders } from '@/providers/QueryProvider/QueryProvider';
 
 interface ProvidersProps {

@@ -1,7 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { UploadDropzone } from '@/lib/uploadthing';
+import { useState } from 'react';
 
 import { AlertTriangle, Loader } from 'lucide-react';
 import { ActiveTool, Editor } from '@/features/Editor/types';
@@ -10,7 +13,6 @@ import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideB
 import { ToolSideBarHeader } from '@/features/Editor/components/ToolBar/ToolSideBarHeader';
 
 import { useGetImages } from '@/features/images/services/queries/use-get-images';
-import Link from 'next/link';
 
 interface ImageSidebarProps {
   editor: Editor | undefined;
@@ -20,6 +22,7 @@ interface ImageSidebarProps {
 
 export const ImageSidebar = ({ editor, activeTool, onChangeActiveTool }: ImageSidebarProps) => {
   const { data, isSuccess, isLoading, isError } = useGetImages();
+  const [isUploading, setIsUploading] = useState(false);
 
   const onClose = () => {
     onChangeActiveTool('select');
@@ -33,6 +36,68 @@ export const ImageSidebar = ({ editor, activeTool, onChangeActiveTool }: ImageSi
       )}
     >
       <ToolSideBarHeader title='Image' description='Add images to your canvas' />
+      <div className='p-4 border-b border-gray-100'>
+        {isUploading ? (
+          <div className='flex items-center justify-center p-8 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50'>
+            <div className='text-center'>
+              <Loader className='h-8 w-8 animate-spin text-blue-500 mx-auto mb-2' />
+              <p className='text-sm text-gray-600'>Uploading image...</p>
+            </div>
+          </div>
+        ) : (
+          <UploadDropzone
+            appearance={{
+              container: {
+                height: '120px',
+                border: '2px dashed #d1d5db',
+                borderRadius: '8px',
+                backgroundColor: '#f9fafb',
+                padding: '16px',
+              },
+              uploadIcon: {
+                width: '32px',
+                height: '32px',
+                color: '#6b7280',
+              },
+              label: {
+                fontSize: '14px',
+                color: '#374151',
+                fontWeight: '500',
+              },
+              allowedContent: {
+                fontSize: '12px',
+                color: '#6b7280',
+              },
+              button: {
+                fontSize: '12px',
+                padding: '6px 12px',
+                height: '32px',
+                backgroundColor: '#3b82f6',
+                borderRadius: '6px',
+              },
+            }}
+            content={{
+              label: 'Choose file or drag and drop',
+              allowedContent: 'Image (4MB)',
+            }}
+            endpoint='imageUploader'
+            onUploadBegin={() => {
+              setIsUploading(true);
+            }}
+            onClientUploadComplete={res => {
+              setIsUploading(false);
+              if (res && res[0]) {
+                editor?.addImage(res[0].url || res[0].ufsUrl);
+              }
+            }}
+            onUploadError={error => {
+              setIsUploading(false);
+              console.error('Upload failed:', error);
+              alert(`Upload failed: ${error.message}`);
+            }}
+          />
+        )}
+      </div>
       {isLoading && (
         <div className='flex items-center justify-center flex-1'>
           <Loader className='size-5 text-black animate-spin' />
