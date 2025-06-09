@@ -1,6 +1,6 @@
 'use client';
 
-import { ScrollArea } from '@radix-ui/react-scroll-area';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { ColorPicker } from '@/features/Editor/components/ColorPicker/ColorPicker';
 import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideBarClose';
@@ -8,7 +8,7 @@ import { ToolSideBarHeader } from '@/features/Editor/components/ToolBar/ToolSide
 import { ActiveTool, Editor } from '@/features/Editor/types';
 import { cn } from '@/lib/utils';
 
-import { FILL_COLOR } from '../../constants';
+import { FILL_COLOR } from '../../../constants';
 
 interface FillColorProps {
   editor: Editor | undefined;

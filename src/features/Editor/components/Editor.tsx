@@ -3,22 +3,23 @@
 import clsx from 'clsx';
 import { fabric } from 'fabric';
 import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
-import { selectionDependentTools } from '@/features/Editor/constants';
+import { SELECTION_DEPENT_TOOLS } from '@/features/Editor/constants';
 import { ActiveTool } from '@/features/Editor/types';
 import { useEditor } from '@/features/Editor/hooks/use-editor';
 
 import { EditorVariants, variants } from '@/features/Editor/components/Editor.variance';
 // import { Footer } from '@/features/Editor/components/Footer/Footer';
 import { NavBar } from '@/features/Editor/components/NavBar/NavBar';
-import { ShapeSideBar } from '@/features/Editor/components/SideBar/ShapeSideBar';
-import { TextSidebar } from '@/features/Editor/components/SideBar/SideBarText';
+import { ShapeSideBar } from '@/features/Editor/components/SideBar/tools/ShapeSideBar';
+import { TextSidebar } from '@/features/Editor/components/SideBar/tools/SideBarText';
 import { SideBar } from '@/features/Editor/components/SideBar/SideBar';
-import { FillColorSidebar } from '@/features/Editor/components/SideBar/SideBarFillColor';
-import { StrokeColorSidebar } from '@/features/Editor/components/SideBar/SideBarStrokeColor';
-import { StrokeWidthSidebar } from '@/features/Editor/components/SideBar/SideBarStrokeWidth';
-import { FontSidebar } from '@/features/Editor/components/SideBar/SideBarFont';
-import { ImageSidebar } from '@/features/Editor/components/SideBar/SideBarImage';
-import { OpacitySidebar } from '@/features/Editor/components/SideBar/SideBarOpacity';
+import { FillColorSidebar } from '@/features/Editor/components/SideBar/tools/SideBarFillColor';
+import { StrokeColorSidebar } from '@/features/Editor/components/SideBar/tools/SideBarStrokeColor';
+import { StrokeWidthSidebar } from '@/features/Editor/components/SideBar/tools/SideBarStrokeWidth';
+import { FontSidebar } from '@/features/Editor/components/SideBar/tools/SideBarFont';
+import { ImageSidebar } from '@/features/Editor/components/SideBar/tools/SideBarImage';
+import { FilterSidebar } from '@/features/Editor/components/SideBar/tools/SideBarFilter';
+import { OpacitySidebar } from '@/features/Editor/components/SideBar/tools/SideBarOpacity';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
 
 type EditorProps = ComponentProps<'canvas'> & EditorVariants;
@@ -44,7 +45,7 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
   );
 
   const onClearSelection = useCallback(() => {
-    if (selectionDependentTools.includes(activeTool)) {
+    if (SELECTION_DEPENT_TOOLS.includes(activeTool)) {
       setActiveTool('select');
     }
   }, [activeTool]);
@@ -117,6 +118,11 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <ImageSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <FilterSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}

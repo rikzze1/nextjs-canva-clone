@@ -16,6 +16,7 @@ import {
   Trash,
 } from 'lucide-react';
 import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from 'react-icons/fa6';
+import { TbColorFilter } from 'react-icons/tb';
 import { BsBorderWidth } from 'react-icons/bs';
 import { RxTransparencyGrid } from 'react-icons/rx';
 import { Hint } from '@/components/Hint/Hint';
@@ -72,6 +73,7 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
   const selectedObject = editor?.selectedObjects[0];
 
   const isText = isTextType(selectedObjectType);
+  const isImage = selectedObjectType === 'image';
 
   const onChangeFontSize = (value: number) => {
     if (!selectedObject) {
@@ -153,22 +155,27 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
 
   return (
     <div className='shrink-0 h-[56px] border-b border-gray-200 bg-white w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-8'>
-      <div className='flex gap-2 items-center h-full justify-center'>
-        <Hint label='Color' side='bottom' sideOffset={5}>
-          <Button
-            onClick={() => onChangeActiveTool('fill')}
-            size='icon'
-            variant='ghost'
-            title='Color picker'
-            className={cn(activeTool === 'fill' && 'bg-gray-200')}
-            style={{
-              backgroundColor: properties.fillColor,
-            }}
-          >
-            <div className='size-3 rounded-md' style={{ backgroundColor: properties.fillColor }} />
-          </Button>
-        </Hint>
-      </div>
+      {!isImage && (
+        <div className='flex gap-2 items-center h-full justify-center'>
+          <Hint label='Color' side='bottom' sideOffset={5}>
+            <Button
+              onClick={() => onChangeActiveTool('fill')}
+              size='icon'
+              variant='ghost'
+              title='Color picker'
+              className={cn(activeTool === 'fill' && 'bg-gray-200')}
+              style={{
+                backgroundColor: properties.fillColor,
+              }}
+            >
+              <div
+                className='size-3 rounded-md'
+                style={{ backgroundColor: properties.fillColor }}
+              />
+            </Button>
+          </Hint>
+        </div>
+      )}
       {!isText && (
         <div className='flex gap-2 items-center h-full justify-center'>
           <Hint label='Stroke color' side='bottom' sideOffset={5}>
@@ -337,6 +344,21 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
       {isText && (
         <div className='flex gap-2 items-center h-full justify-center'>
           <FontSizeInput value={Number(properties.fontSize)} onChange={onChangeFontSize} />
+        </div>
+      )}
+      {isImage && (
+        <div className='flex gap-2 items-center h-full justify-center'>
+          <Hint label='Filters' side='bottom' sideOffset={5}>
+            <Button
+              onClick={() => onChangeActiveTool('filter')}
+              size='icon'
+              variant='ghost'
+              title='Filter'
+              className={cn(activeTool === 'filter' && 'bg-gray-200 size-6')}
+            >
+              <TbColorFilter className='size-4' />
+            </Button>
+          </Hint>
         </div>
       )}
       <div className='flex gap-2 items-center h-full justify-center'>

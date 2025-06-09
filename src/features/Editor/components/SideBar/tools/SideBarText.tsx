@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { ActiveTool, Editor } from '@/features/Editor/types';
-import { ScrollArea } from '@radix-ui/react-scroll-area';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideBarClose';
 import { ToolSideBarHeader } from '@/features/Editor/components/ToolBar/ToolSideBarHeader';
 import { Button } from '@/components/ui/button';

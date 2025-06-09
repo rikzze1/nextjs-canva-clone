@@ -40,6 +40,7 @@ export type BuildEditorProps = {
   setFontFamily: (value: string) => void;
 };
 export interface Editor {
+  changeImageFilter: (image: string) => void;
   addImage: (value: string) => void;
   delete: () => void;
   addText: (value: string, options?: ITextboxOptions) => void;
