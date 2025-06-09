@@ -2,7 +2,7 @@
 
 import { LayoutTemplate, ImageIcon, Settings, Shapes, Sparkles, Type } from 'lucide-react';
 
-import { SideBarItem } from '@/features/Editor/components/SideBar/tools/SideBarItem';
+import { SideBarItem } from '@/features/Editor/components/SideBar/Items/SideBarItem';
 import { ActiveTool } from '@/features/Editor/types';
 
 interface SidebarProps {

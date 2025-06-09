@@ -10,17 +10,18 @@ import { useEditor } from '@/features/Editor/hooks/use-editor';
 import { EditorVariants, variants } from '@/features/Editor/components/Editor.variance';
 // import { Footer } from '@/features/Editor/components/Footer/Footer';
 import { NavBar } from '@/features/Editor/components/NavBar/NavBar';
-import { ShapeSideBar } from '@/features/Editor/components/SideBar/tools/ShapeSideBar';
-import { TextSidebar } from '@/features/Editor/components/SideBar/tools/SideBarText';
+import { ShapeSideBar } from '@/features/Editor/components/SideBar/Items/ShapeSideBar';
+import { TextSidebar } from '@/features/Editor/components/SideBar/Items/SideBarText';
 import { SideBar } from '@/features/Editor/components/SideBar/SideBar';
-import { FillColorSidebar } from '@/features/Editor/components/SideBar/tools/SideBarFillColor';
-import { StrokeColorSidebar } from '@/features/Editor/components/SideBar/tools/SideBarStrokeColor';
-import { StrokeWidthSidebar } from '@/features/Editor/components/SideBar/tools/SideBarStrokeWidth';
-import { FontSidebar } from '@/features/Editor/components/SideBar/tools/SideBarFont';
-import { ImageSidebar } from '@/features/Editor/components/SideBar/tools/SideBarImage';
-import { FilterSidebar } from '@/features/Editor/components/SideBar/tools/SideBarFilter';
-import { OpacitySidebar } from '@/features/Editor/components/SideBar/tools/SideBarOpacity';
+import { FillColorSidebar } from '@/features/Editor/components/SideBar/Items/SideBarFillColor';
+import { StrokeColorSidebar } from '@/features/Editor/components/SideBar/Items/SideBarStrokeColor';
+import { StrokeWidthSidebar } from '@/features/Editor/components/SideBar/Items/SideBarStrokeWidth';
+import { FontSidebar } from '@/features/Editor/components/SideBar/Items/SideBarFont';
+import { ImageSidebar } from '@/features/Editor/components/SideBar/Items/SideBarImage';
+import { FilterSidebar } from '@/features/Editor/components/SideBar/Items/SideBarFilter';
+import { OpacitySidebar } from '@/features/Editor/components/SideBar/Items/SideBarOpacity';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
+import { AiSidebar } from '@/features/Editor/components/SideBar/Items/SidebarAI';
 
 type EditorProps = ComponentProps<'canvas'> & EditorVariants;
 
@@ -123,6 +124,11 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <FilterSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <AiSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
