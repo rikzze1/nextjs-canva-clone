@@ -19,6 +19,7 @@ import { StrokeWidthSidebar } from '@/features/Editor/components/SideBar/tools/S
 import { FontSidebar } from '@/features/Editor/components/SideBar/tools/SideBarFont';
 import { ImageSidebar } from '@/features/Editor/components/SideBar/tools/SideBarImage';
 import { FilterSidebar } from '@/features/Editor/components/SideBar/tools/SideBarFilter';
+import { SidebarAi } from '@/features/Editor/components/SideBar/tools/SideBarAI';
 import { OpacitySidebar } from '@/features/Editor/components/SideBar/tools/SideBarOpacity';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
 
@@ -123,6 +124,11 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <FilterSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <SidebarAi
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
