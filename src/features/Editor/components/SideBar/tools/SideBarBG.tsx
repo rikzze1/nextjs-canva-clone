@@ -30,7 +30,6 @@ export const SidebarRemoveBG = ({ editor, activeTool, onChangeActiveTool }: Side
   const onClick = () => {
     mutation.mutate(
       {
-        //@ts-expect-error this will work just leave it
         image: imageSrc,
       },
       {
