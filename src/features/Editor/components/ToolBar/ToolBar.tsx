@@ -15,6 +15,7 @@ import {
   AlignRight,
   Trash,
   SquareSplitHorizontal,
+  Copy,
 } from 'lucide-react';
 import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from 'react-icons/fa6';
 import { TbColorFilter } from 'react-icons/tb';
@@ -411,6 +412,21 @@ export const ToolBar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps
             className={cn(activeTool === 'opacity' && 'bg-gray-100')}
           >
             <RxTransparencyGrid className='size-4' />
+          </Button>
+        </Hint>
+      </div>
+      <div className='flex gap-2 items-center h-full justify-center'>
+        <Hint label='Duplicate' side='bottom' sideOffset={5}>
+          <Button
+            onClick={() => {
+              editor?.onCopy();
+              editor?.onPaste();
+            }}
+            size='icon'
+            variant='ghost'
+            title='Delete'
+          >
+            <Copy className='size-4' />
           </Button>
         </Hint>
       </div>

@@ -29,8 +29,11 @@ import {
   TextAlign,
 } from '@/features/Editor/types';
 import { createFilter, isTextType } from '@/features/Editor/utils';
+import { useClipboard } from '@/features/Editor/hooks/use-clipboard';
 
 const buildEditor = ({
+  copy,
+  paste,
   canvas,
   fillColor,
   fontFamily,
@@ -65,6 +68,18 @@ const buildEditor = ({
   };
 
   return {
+    enableDrawingMode: () => {
+      canvas.discardActiveObject();
+      canvas.renderAll();
+      canvas.isDrawingMode = true;
+      canvas.freeDrawingBrush.width = strokeWidth;
+      canvas.freeDrawingBrush.color = strokeColor;
+    },
+    disableDrawingMode: () => {
+      canvas.isDrawingMode = false;
+    },
+    onCopy: () => copy(),
+    onPaste: () => paste(),
     changeImageFilter: (value: string) => {
       const objects = canvas.getActiveObjects();
       objects.forEach(object => {
@@ -304,6 +319,7 @@ const buildEditor = ({
       canvas.getActiveObjects().forEach(object => {
         object.set({ fill: value });
       });
+      canvas.freeDrawingBrush.color = value;
       canvas.renderAll();
     },
     changeStrokeWidth: (value: number) => {
@@ -311,6 +327,7 @@ const buildEditor = ({
       canvas.getActiveObjects().forEach(object => {
         object.set({ strokeWidth: value });
       });
+      canvas.freeDrawingBrush.width = value;
       canvas.renderAll();
     },
     getActiveStrokeWidth: () => {
@@ -349,6 +366,7 @@ const buildEditor = ({
         }
         object.set({ stroke: value });
       });
+      canvas.freeDrawingBrush.color = value;
       canvas.renderAll();
     },
     getActiveStrokeColor: () => {
@@ -458,6 +476,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
   const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY);
 
+  const { copy, paste } = useClipboard({ canvas });
+
   useAutoResize({
     canvas,
     container,
@@ -472,6 +492,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const editor = useMemo(() => {
     if (canvas) {
       return buildEditor({
+        copy,
+        paste,
         canvas,
         fillColor,
         strokeColor,
@@ -487,7 +509,17 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
       });
     }
     return undefined;
-  }, [canvas, fillColor, strokeColor, strokeWidth, selectedObjects, strokeDashArray, fontFamily]);
+  }, [
+    canvas,
+    copy,
+    paste,
+    fillColor,
+    strokeColor,
+    strokeWidth,
+    fontFamily,
+    strokeDashArray,
+    selectedObjects,
+  ]);
 
   const init = useCallback(
     ({

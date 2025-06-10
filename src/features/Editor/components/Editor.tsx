@@ -22,29 +22,13 @@ import { FilterSidebar } from '@/features/Editor/components/SideBar/tools/SideBa
 import { SidebarAi } from '@/features/Editor/components/SideBar/tools/SideBarAI';
 import { OpacitySidebar } from '@/features/Editor/components/SideBar/tools/SideBarOpacity';
 import { SidebarRemoveBG } from '@/features/Editor/components/SideBar/tools/SideBarBG';
+import { DrawSidebar } from '@/features/Editor/components/SideBar/tools/SideBarDraw';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
 
 type EditorProps = ComponentProps<'canvas'> & EditorVariants;
 
 export const Editor = ({ variant, ...props }: EditorProps) => {
   const [activeTool, setActiveTool] = useState<ActiveTool>('select');
-
-  const onChangeActiveTool = useCallback(
-    (tool: ActiveTool) => {
-      if (tool === activeTool) {
-        return setActiveTool('select');
-      }
-      if (tool === 'draw') {
-        //TODO: Enable draw mow
-      }
-      if (activeTool === 'draw') {
-        //TODO: Disable draw mode
-      }
-
-      setActiveTool(tool);
-    },
-    [activeTool]
-  );
 
   const onClearSelection = useCallback(() => {
     if (SELECTION_DEPENT_TOOLS.includes(activeTool)) {
@@ -78,6 +62,24 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
       canvas.dispose();
     };
   }, [init]);
+
+  const onChangeActiveTool = useCallback(
+    (tool: ActiveTool) => {
+      if (tool === 'draw') {
+        editor?.enableDrawingMode();
+      }
+
+      if (activeTool === 'draw') {
+        editor?.disableDrawingMode();
+      }
+      if (tool === activeTool) {
+        return setActiveTool('select');
+      }
+
+      setActiveTool(tool);
+    },
+    [activeTool, editor]
+  );
 
   return (
     <div className={clsx(variants({ variant }), 'bg-muted')} ref={containerRef}>
@@ -135,6 +137,11 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <SidebarRemoveBG
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <DrawSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
