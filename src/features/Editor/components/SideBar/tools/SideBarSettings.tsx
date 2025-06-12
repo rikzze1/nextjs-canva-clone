@@ -1,0 +1,105 @@
+'use client';
+
+import React, { useEffect, useMemo, useState } from 'react';
+import { cn } from '@/lib/utils';
+import { ActiveTool, Editor } from '@/features/Editor/types';
+
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { ColorPicker } from '@/features/Editor/components/ColorPicker/ColorPicker';
+import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideBarClose';
+import { ToolSideBarHeader } from '@/features/Editor/components/ToolBar/ToolSideBarHeader';
+
+interface SettingsProps {
+  editor: Editor | undefined;
+  activeTool: ActiveTool;
+  onChangeActiveTool: (tool: ActiveTool) => void;
+}
+
+export const SettingsSidebar = ({ editor, activeTool, onChangeActiveTool }: SettingsProps) => {
+  const workspace = editor?.getWorkspace();
+
+  const initiallWidth = useMemo(() => `${workspace?.width ?? 0}`, [workspace]);
+  const initialHeight = useMemo(() => `${workspace?.height ?? 0}`, [workspace]);
+  const initialBackground = useMemo(() => workspace?.fill ?? '#fff', [workspace]);
+
+  const [size, setSize] = useState({
+    width: 0,
+    height: 0,
+  });
+
+  const [background, setBackground] = useState(initialBackground);
+
+  useEffect(() => {
+    setSize(prev => ({ ...prev, width: Number(initiallWidth) }));
+    setSize(prev => ({ ...prev, height: Number(initialHeight) }));
+    setBackground(initialBackground);
+  }, [initialBackground, initialHeight, initiallWidth]);
+
+  const onClose = () => {
+    onChangeActiveTool('select');
+  };
+
+  const changeWidth = (value: number) => setSize(prev => ({ ...prev, width: value }));
+  const changeHeight = (value: number) => setSize(prev => ({ ...prev, height: value }));
+  const changeBackground = (value: string) => {
+    setBackground(value);
+    editor?.changeBackground(value);
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    editor?.changeSize({
+      width: parseInt(String(size.width), 10),
+      height: parseInt(String(size.height), 10),
+    });
+  };
+
+  return (
+    <aside
+      className={cn(
+        'bg-white relative border-r border-gray-200 z-[40] w-[360px] h-full flex flex-col',
+        activeTool === 'settings' ? 'visible' : 'hidden'
+      )}
+    >
+      <ToolSideBarHeader title='Settings' description='Change the look of your workspace' />
+      <ScrollArea>
+        <form className='space-y-4 p-4' onSubmit={onSubmit}>
+          <div className='space-y-2'>
+            <Label>Height</Label>
+            <Input
+              className='border-gray-100'
+              placeholder='Height'
+              value={size.height}
+              type='number'
+              onChange={e => changeHeight(Number(e.target.value))}
+            />
+          </div>
+          <div className='space-y-2'>
+            <Label>Width</Label>
+            <Input
+              className='border-gray-100'
+              placeholder='Width'
+              value={size.width}
+              type='number'
+              onChange={e => changeWidth(Number(e.target.value))}
+            />
+            <Button type='submit' className='w-full bg-black text-white'>
+              Resize
+            </Button>
+          </div>
+        </form>
+        <div className='p-4'>
+          <ColorPicker
+            value={background as string} // we dont support gradients or patterns
+            onChange={changeBackground}
+          />
+        </div>
+      </ScrollArea>
+      <ToolSideBarClose onClick={onClose} />
+    </aside>
+  );
+};

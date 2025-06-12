@@ -23,6 +23,7 @@ import { SidebarAi } from '@/features/Editor/components/SideBar/tools/SideBarAI'
 import { OpacitySidebar } from '@/features/Editor/components/SideBar/tools/SideBarOpacity';
 import { SidebarRemoveBG } from '@/features/Editor/components/SideBar/tools/SideBarBG';
 import { DrawSidebar } from '@/features/Editor/components/SideBar/tools/SideBarDraw';
+import { SettingsSidebar } from '@/features/Editor/components/SideBar/tools/SideBarSettings';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
 
 type EditorProps = ComponentProps<'canvas'> & EditorVariants;
@@ -142,6 +143,11 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <DrawSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <SettingsSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}

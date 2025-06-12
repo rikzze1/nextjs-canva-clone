@@ -69,6 +69,7 @@ const buildEditor = ({
   };
 
   return {
+    getWorkspace,
     changeSize: (value: { width: number; height: number }) => {
       const workspace = getWorkspace();
 
@@ -522,7 +523,18 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
       });
     }
     return undefined;
-  }, [canvas, autoZoom, copy, paste, fillColor, strokeColor, strokeWidth, fontFamily, strokeDashArray, selectedObjects]);
+  }, [
+    canvas,
+    autoZoom,
+    copy,
+    paste,
+    fillColor,
+    strokeColor,
+    strokeWidth,
+    fontFamily,
+    strokeDashArray,
+    selectedObjects,
+  ]);
 
   const init = useCallback(
     ({

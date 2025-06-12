@@ -1,6 +1,5 @@
 'use client';
 
-
 import { cn } from '@/lib/utils';
 import { STROKE_COLOR, STROKE_WIDTH } from '@/features/Editor/constants';
 
@@ -42,23 +41,16 @@ export const DrawSidebar = ({ editor, activeTool, onChangeActiveTool }: DrawProp
         activeTool === 'draw' ? 'visible' : 'hidden'
       )}
     >
-      <ToolSideBarHeader
-        title='Drawing mode'
-        description='Modify brush settings'
-      />
+      <ToolSideBarHeader title='Drawing mode' description='Modify brush settings' />
       <ScrollArea>
         <div className='p-4 space-y-6 border-b'>
-          <Label className='text-sm'>
-            Brush width
-          </Label>
+          <Label className='text-sm'>Brush width</Label>
           <Slider
             value={[widthValue]}
-            onValueChange={(values) => {
+            onValueChange={values => {
               onWdithChange(values[0]);
             }}
-          >
-
-          </Slider>
+          ></Slider>
         </div>
         <div className='p-4 space-y-6'>
           <ColorPicker value={colorValue} onChange={onColorChange} />
