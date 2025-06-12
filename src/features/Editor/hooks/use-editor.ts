@@ -75,7 +75,7 @@ const buildEditor = ({
       let zoomRatio = canvas.getZoom();
       zoomRatio += 0.5;
       const center = canvas.getCenter();
-      canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomRatio);
+      canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomRatio > 1 ? 1 : zoomRatio);
     },
     zoomOut: () => {
       let zoomRatio = canvas.getZoom();
