@@ -8,7 +8,7 @@ import { ActiveTool } from '@/features/Editor/types';
 import { useEditor } from '@/features/Editor/hooks/use-editor';
 
 import { EditorVariants, variants } from '@/features/Editor/components/Editor.variance';
-// import { Footer } from '@/features/Editor/components/Footer/Footer';
+import { Footer } from '@/features/Editor/components/Footer/Footer';
 import { NavBar } from '@/features/Editor/components/NavBar/NavBar';
 import { ShapeSideBar } from '@/features/Editor/components/SideBar/tools/ShapeSideBar';
 import { TextSidebar } from '@/features/Editor/components/SideBar/tools/SideBarText';
@@ -161,7 +161,7 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
           <div className='flex-1 flex items-center justify-center'>
             <canvas ref={canvasRef} {...props} />
           </div>
-          {/* <Footer /> */}
+          <Footer editor={editor} />
         </main>
       </div>
     </div>

@@ -43,6 +43,9 @@ export type BuildEditorProps = {
   setFontFamily: (value: string) => void;
 };
 export interface Editor {
+  autoZoom: () => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
   getWorkspace: () => fabric.Object | undefined;
   changeBackground: (value: string) => void;
   changeSize: (value: { width: number; height: number }) => void;
