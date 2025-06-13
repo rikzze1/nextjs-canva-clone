@@ -536,6 +536,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     canvas,
     setSelectedObjects,
     clearSelectionCallback,
+    autoZoom,
   });
 
   useHotkeys({

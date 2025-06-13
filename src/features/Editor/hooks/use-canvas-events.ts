@@ -6,6 +6,7 @@ interface UseCanvasEventsProps {
   canvas: fabric.Canvas | null;
   setSelectedObjects: (objects: fabric.Object[]) => void;
   clearSelectionCallback?: () => void;
+  autoZoom?: () => void;
 }
 
 export const useCanvasEvents = ({
@@ -13,6 +14,7 @@ export const useCanvasEvents = ({
   canvas,
   setSelectedObjects,
   clearSelectionCallback,
+  autoZoom,
 }: UseCanvasEventsProps) => {
   useEffect(() => {
     if (canvas) {
@@ -22,15 +24,20 @@ export const useCanvasEvents = ({
       canvas.on('selection:created', e => {
         console.log('selection:created');
         setSelectedObjects(e.selected || []);
+        // Trigger auto-resize after a small delay to account for toolbar appearing
+        setTimeout(() => autoZoom?.(), 100);
       });
       canvas.on('selection:updated', e => {
         console.log('selection:updated');
         setSelectedObjects(e.selected || []);
+        setTimeout(() => autoZoom?.(), 100);
       });
       canvas.on('selection:cleared', () => {
         console.log('selection:cleared');
         setSelectedObjects([]);
         clearSelectionCallback?.();
+        // Trigger auto-resize after a small delay to account for toolbar disappearing
+        setTimeout(() => autoZoom?.(), 100);
       });
     }
 
@@ -44,5 +51,5 @@ export const useCanvasEvents = ({
         canvas?.off('selection:cleared');
       }
     };
-  }, [canvas, setSelectedObjects, clearSelectionCallback, save]);
+  }, [canvas, setSelectedObjects, clearSelectionCallback, save, autoZoom]);
 };

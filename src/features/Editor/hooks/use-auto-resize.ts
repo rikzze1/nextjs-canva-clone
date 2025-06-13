@@ -4,8 +4,9 @@ import { useCallback, useEffect } from 'react';
 interface UseAutoResizeProps {
   canvas: fabric.Canvas | null;
   container: HTMLDivElement | null;
+  onResize?: () => void;
 }
-export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
+export const useAutoResize = ({ canvas, container, onResize }: UseAutoResizeProps) => {
   const autoZoom = useCallback(() => {
     if (!canvas || !container) return;
 
@@ -51,21 +52,41 @@ export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
 
   useEffect(() => {
     let resizeObserver: ResizeObserver | null = null;
+    let timeoutId: NodeJS.Timeout | null = null;
 
-    if (canvas && container) {
-      resizeObserver = new ResizeObserver(() => {
+    const handleResize = () => {
+      // Debounce the resize to avoid multiple rapid calls
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
         console.log('resizing');
         autoZoom();
-      });
+        onResize?.(); // Call the optional callback
+      }, 50); // Small delay to ensure layout is complete
+    };
+
+    if (canvas && container) {
+      resizeObserver = new ResizeObserver(handleResize);
       resizeObserver.observe(container);
+
+      // Also listen for window resize as a fallback
+      window.addEventListener('resize', handleResize);
+
+      // Initial auto-zoom on mount
+      handleResize();
     }
 
     return () => {
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      window.removeEventListener('resize', handleResize);
     };
-  }, [canvas, container, autoZoom]);
+  }, [canvas, container, autoZoom, onResize]);
 
   return { autoZoom };
 };
