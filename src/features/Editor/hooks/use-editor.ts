@@ -1,4 +1,5 @@
 import { fabric } from 'fabric';
+import { ITextboxOptions } from 'fabric/fabric-impl';
 import { useCallback, useMemo, useState } from 'react';
 
 import {
@@ -19,22 +20,30 @@ import {
   TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from '@/features/Editor/constants';
-import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
-import { useCanvasEvents } from '@/features/Editor/hooks/use-canvas-events';
 import {
   BuildEditorProps,
   Editor,
   EditorHookProps,
   FontStyle,
+  JSON_KEYS,
   TextAlign,
 } from '@/features/Editor/types';
 import { createFilter, isTextType } from '@/features/Editor/utils';
 import { useClipboard } from '@/features/Editor/hooks/use-clipboard';
+import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
+import { useCanvasEvents } from '@/features/Editor/hooks/use-canvas-events';
+import { useHistory } from '@/features/Editor/hooks/use-history';
+import { useHotkeys } from '@/features/Editor/hooks/use-hotkeys';
 
 const buildEditor = ({
+  onUndo,
+  onRedo,
   autoZoom,
   copy,
   paste,
+  save,
+  canRedo,
+  canUndo,
   canvas,
   fillColor,
   fontFamily,
@@ -69,6 +78,8 @@ const buildEditor = ({
   };
 
   return {
+    canUndo,
+    canRedo,
     autoZoom,
     getWorkspace,
     zoomIn: () => {
@@ -91,11 +102,13 @@ const buildEditor = ({
 
       workspace?.set(value);
       autoZoom();
+      save();
     },
     changeBackground: (value: string) => {
       const workspace = getWorkspace();
       workspace?.set({ fill: value });
       canvas.renderAll();
+      save();
     },
     enableDrawingMode: () => {
       canvas.discardActiveObject();
@@ -107,6 +120,8 @@ const buildEditor = ({
     disableDrawingMode: () => {
       canvas.isDrawingMode = false;
     },
+    onUndo,
+    onRedo,
     onCopy: () => copy(),
     onPaste: () => paste(),
     changeImageFilter: (value: string) => {
@@ -143,7 +158,7 @@ const buildEditor = ({
       canvas.discardActiveObject();
       canvas.renderAll();
     },
-    addText: (value, options) => {
+    addText: (value: string, options?: ITextboxOptions) => {
       const object = new fabric.Textbox(value, {
         ...TEXT_OPTIONS,
         fill: fillColor,
@@ -505,6 +520,10 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
   const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY);
 
+  const { save, canRedo, canUndo, undo, redo, setHistoryIndex, canvasHistory } = useHistory({
+    canvas,
+  });
+
   const { copy, paste } = useClipboard({ canvas });
 
   const { autoZoom } = useAutoResize({
@@ -513,17 +532,34 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   });
 
   useCanvasEvents({
+    save,
     canvas,
     setSelectedObjects,
     clearSelectionCallback,
   });
 
+  useHotkeys({
+    undo,
+    redo,
+    copy,
+    paste,
+    save,
+    canvas,
+  });
+
   const editor = useMemo(() => {
     if (canvas) {
       return buildEditor({
+        onUndo: undo,
+        onRedo: redo,
+        canRedo,
+        canUndo,
+        undo,
+        redo,
         autoZoom,
         copy,
         paste,
+        save,
         canvas,
         fillColor,
         strokeColor,
@@ -541,9 +577,14 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     return undefined;
   }, [
     canvas,
+    canRedo,
+    canUndo,
+    undo,
+    redo,
     autoZoom,
     copy,
     paste,
+    save,
     fillColor,
     strokeColor,
     strokeWidth,
@@ -597,8 +638,13 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
 
       setCanvas(initialCanvas);
       setContainer(initialContainer);
+
+      const currentState = JSON.stringify(initialCanvas.toJSON(JSON_KEYS));
+
+      canvasHistory.current = [currentState];
+      setHistoryIndex(0);
     },
-    []
+    [canvasHistory, setHistoryIndex]
   );
 
   return { init, editor };

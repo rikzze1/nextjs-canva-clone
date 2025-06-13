@@ -15,15 +15,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { ActiveTool } from '@/features/Editor/types';
+import { ActiveTool, Editor } from '@/features/Editor/types';
 import { cn } from '@/lib/utils';
 
 interface NavbarProps {
+  editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
 }
 
-export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
+export const NavBar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
   return (
     <nav className='w-full z-50 flex items-center p-4 h-[68px] gap-x-4 bg-white border-gray-100 border-b lg:pl-[34px] overflow-hidden min-w-0'>
       <Logo variant='small' />
@@ -66,10 +67,11 @@ export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
         </Hint>
         <Hint label='Undo' side='bottom' sideOffset={10}>
           <Button
+            disabled={!editor?.canUndo()}
             variant='ghost'
             size='icon'
             title='undo'
-            onClick={() => {}}
+            onClick={() => editor?.onUndo()}
             className='cursor-pointer'
           >
             <Undo2 className='size-4' />
@@ -77,10 +79,11 @@ export const NavBar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
         </Hint>
         <Hint label='Redo' side='bottom' sideOffset={10}>
           <Button
+            disabled={!editor?.canRedo()}
             variant='ghost'
             size='icon'
             title='redo'
-            onClick={() => {}}
+            onClick={() => editor?.onRedo()}
             className='cursor-pointer'
           >
             <Redo2 className='size-4' />

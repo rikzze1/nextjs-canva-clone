@@ -83,9 +83,9 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
   );
 
   return (
-    <div className={clsx(variants({ variant }), 'bg-muted overflow-hidden')} ref={containerRef}>
-      <NavBar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
-      <div className='absolute h-[calc(100%-120px)] w-full top-[68px] flex'>
+    <div className={clsx(variants({ variant }), 'bg-muted')} ref={containerRef}>
+      <NavBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
+      <div className='absolute h-[calc(100%-68px)] w-full top-[68px] flex'>
         <SideBar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
         <ShapeSideBar
           editor={editor}
@@ -154,16 +154,16 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
         />
         <main className='bg-muted flex-1 overflow-auto relative flex flex-col' tabIndex={0}>
           <ToolBar
-            editor={editor}
             activeTool={activeTool}
             onChangeActiveTool={onChangeActiveTool}
+            editor={editor}
           />
-          <div className='flex-1 flex items-center justify-center'>
+          <div>
             <canvas ref={canvasRef} {...props} />
           </div>
         </main>
+        <Footer editor={editor} />
       </div>
-      <Footer editor={editor} />
     </div>
   );
 };
