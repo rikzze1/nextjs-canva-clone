@@ -84,7 +84,7 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
 
   return (
     <div className={clsx(variants({ variant }), 'bg-muted')} ref={containerRef}>
-      <NavBar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
+      <NavBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
       <div className='absolute h-[calc(100%-68px)] w-full top-[68px] flex'>
         <SideBar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
         <ShapeSideBar

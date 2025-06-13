@@ -4,6 +4,17 @@ import { ITextboxOptions } from 'fabric/fabric-impl';
 export type FontStyle = 'normal' | 'italic' | 'oblique';
 export type TextAlign = 'left' | 'center' | 'right' | 'justify';
 
+export const JSON_KEYS = [
+  'name',
+  'grandientAngle',
+  'selectable',
+  'hasControls',
+  'linkData',
+  'editable',
+  'extensionType',
+  'extension',
+];
+
 export type ActiveTool =
   | 'select'
   | 'shapes'
@@ -26,9 +37,16 @@ export interface EditorHookProps {
 }
 
 export type BuildEditorProps = {
-  autoZoom: () => void;
+  onUndo: () => void;
+  onRedo: () => void;
+  canRedo: () => boolean;
+  canUndo: () => boolean;
+  undo: () => void;
+  redo: () => void;
+  save: (skip?: boolean) => void;
   copy: () => void;
   paste: () => void;
+  autoZoom: () => void;
   canvas: fabric.Canvas;
   fillColor: string;
   strokeColor: string;
@@ -43,6 +61,10 @@ export type BuildEditorProps = {
   setFontFamily: (value: string) => void;
 };
 export interface Editor {
+  onUndo: () => void;
+  onRedo: () => void;
+  canRedo: () => boolean;
+  canUndo: () => boolean;
   getWorkspace: () => fabric.Object | undefined;
   changeBackground: (value: string) => void;
   changeSize: (value: { width: number; height: number }) => void;
