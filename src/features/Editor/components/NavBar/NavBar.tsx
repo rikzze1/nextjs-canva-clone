@@ -26,9 +26,9 @@ interface NavbarProps {
 
 export const NavBar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
   return (
-    <nav className='w-full z-50 flex items-center p-4 h-[68px] gap-x-8 bg-white border-gray-100 border-b lg:pl-[34px]'>
+    <nav className='w-full z-50 flex items-center p-4 h-[68px] gap-x-4 bg-white border-gray-100 border-b lg:pl-[34px] overflow-hidden min-w-0'>
       <Logo variant='small' />
-      <div className='w-full flex items-center gap-x-1 h-full'>
+      <div className='w-full flex items-center gap-x-1 h-full min-w-0 flex-shrink'>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button
@@ -94,7 +94,7 @@ export const NavBar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) 
           <BsCloudCheck className='size-[20px] text-muted-foreground' />
           <div className='text-xs text-gray-500'>Saved</div>
         </div>
-        <div className='ml-auto flex items-center gap-x-4'>
+        <div className='ml-auto flex items-center gap-x-2 flex-shrink-0'>
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button size='sm' variant='ghost' className='hover:bg-zinc-100 hover:cursor-pointer'>

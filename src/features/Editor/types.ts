@@ -65,6 +65,9 @@ export interface Editor {
   onRedo: () => void;
   canRedo: () => boolean;
   canUndo: () => boolean;
+  autoZoom: () => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
   getWorkspace: () => fabric.Object | undefined;
   changeBackground: (value: string) => void;
   changeSize: (value: { width: number; height: number }) => void;

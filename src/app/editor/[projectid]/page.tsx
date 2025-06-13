@@ -21,7 +21,7 @@ const Editor = dynamic(
 
 const EditorProjectIdPage = () => {
   return (
-    <div className='w-full h-screen'>
+    <div className='w-full h-screen overflow-hidden'>
       <Editor variant='fill' />
     </div>
   );

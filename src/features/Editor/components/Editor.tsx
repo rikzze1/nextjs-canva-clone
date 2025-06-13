@@ -154,15 +154,15 @@ export const Editor = ({ variant, ...props }: EditorProps) => {
         />
         <main className='bg-muted flex-1 overflow-auto relative flex flex-col' tabIndex={0}>
           <ToolBar
-            editor={editor}
             activeTool={activeTool}
             onChangeActiveTool={onChangeActiveTool}
+            editor={editor}
           />
-          <div className='flex-1 flex items-center justify-center'>
+          <div>
             <canvas ref={canvasRef} {...props} />
           </div>
-          <Footer /> 
         </main>
+        <Footer editor={editor} />
       </div>
     </div>
   );
