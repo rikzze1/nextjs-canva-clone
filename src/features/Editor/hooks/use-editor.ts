@@ -20,8 +20,6 @@ import {
   TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from '@/features/Editor/constants';
-import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
-import { useCanvasEvents } from '@/features/Editor/hooks/use-canvas-events';
 import {
   BuildEditorProps,
   Editor,
@@ -32,7 +30,10 @@ import {
 } from '@/features/Editor/types';
 import { createFilter, isTextType } from '@/features/Editor/utils';
 import { useClipboard } from '@/features/Editor/hooks/use-clipboard';
+import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
+import { useCanvasEvents } from '@/features/Editor/hooks/use-canvas-events';
 import { useHistory } from '@/features/Editor/hooks/use-history';
+import { useHotkeys } from '@/features/Editor/hooks/use-hotkeys';
 
 const buildEditor = ({
   onUndo,
@@ -519,6 +520,15 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     canvas,
     setSelectedObjects,
     clearSelectionCallback,
+  });
+
+  useHotkeys({
+    undo,
+    redo,
+    copy,
+    paste,
+    save,
+    canvas,
   });
 
   const editor = useMemo(() => {
