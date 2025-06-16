@@ -103,28 +103,40 @@ export const NavBar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) 
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end' className='min-w-60 border-gray-200 bg-white'>
-              <DropdownMenuItem className='flex items-center gap-x-2' onClick={() => {}}>
+              <DropdownMenuItem
+                onClick={() => editor?.saveJSON()}
+                className='flex items-center gap-x-2'
+              >
                 <CiFileOn className='size-8' />
                 <div>
                   <p>JSON</p>
                   <p className='text-xs text-gray-500'>Save for later editing</p>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem className='flex items-center gap-x-2' onClick={() => {}}>
+              <DropdownMenuItem
+                onClick={() => editor?.savePNG()}
+                className='flex items-center gap-x-2'
+              >
                 <CiFileOn className='size-8' />
                 <div>
                   <p>PNG</p>
                   <p className='text-xs text-gray-500'>Best sharing on the web</p>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem className='flex items-center gap-x-2' onClick={() => {}}>
+              <DropdownMenuItem
+                onClick={() => editor?.saveJPG()}
+                className='flex items-center gap-x-2'
+              >
                 <CiFileOn className='size-8' />
                 <div>
                   <p>JPEG</p>
                   <p className='text-xs text-gray-500'>Best for printing</p>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem className='flex items-center gap-x-2' onClick={() => {}}>
+              <DropdownMenuItem
+                onClick={() => editor?.saveSVG()}
+                className='flex items-center gap-x-2'
+              >
                 <CiFileOn className='size-8' />
                 <div>
                   <p>SVG</p>
