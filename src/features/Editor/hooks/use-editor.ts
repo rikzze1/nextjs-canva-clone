@@ -34,6 +34,8 @@ import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
 import { useCanvasEvents } from '@/features/Editor/hooks/use-canvas-events';
 import { useHistory } from '@/features/Editor/hooks/use-history';
 import { useHotkeys } from '@/features/Editor/hooks/use-hotkeys';
+import { useWindowSize } from '@/features/Editor/hooks/react-use';
+import { useWindowEvents } from './use-window-events';
 
 const buildEditor = ({
   onUndo,
@@ -82,13 +84,17 @@ const buildEditor = ({
   };
 
   const saveSVG = () => {
-    const options = generateSaveOptions();
-
     canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
-    const dataUrl = canvas.toDataURL(options);
 
-    downloadFile(dataUrl, 'svg');
+    const svgString = canvas.toSVG();
+
+    const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    const svgUrl = URL.createObjectURL(svgBlob);
+
+    downloadFile(svgUrl, 'svg');
     autoZoom();
+
+    setTimeout(() => URL.revokeObjectURL(svgUrl), 100);
   };
 
   const saveJPG = () => {
@@ -121,7 +127,7 @@ const buildEditor = ({
     downloadFile(fileString, 'json');
   };
 
-  const loadFromJSON = (json: string) => {
+  const loadJSON = (json: string) => {
     const data = JSON.parse(json);
 
     canvas.loadFromJSON(data, () => {
@@ -154,7 +160,7 @@ const buildEditor = ({
     saveJPG,
     saveSVG,
     saveJSON,
-    loadFromJSON,
+    loadJSON,
     canUndo,
     canRedo,
     autoZoom,
@@ -597,7 +603,17 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
   const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY);
 
-  const { save, canRedo, canUndo, undo, redo, setHistoryIndex, canvasHistory } = useHistory({
+  useWindowEvents();
+
+  const {
+    save,
+    canRedo,
+    canUndo,
+    undo,
+    redo,
+    setHistoryIndex,
+    canvasHistory
+  } = useHistory({
     canvas,
   });
 

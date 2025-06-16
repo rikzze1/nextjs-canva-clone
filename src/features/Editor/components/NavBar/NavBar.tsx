@@ -4,6 +4,7 @@ import { ChevronDown, Download, MousePointerClick, Redo2, Undo2 } from 'lucide-r
 import React from 'react';
 import { BsCloudCheck } from 'react-icons/bs';
 import { CiFileOn } from 'react-icons/ci';
+import { useFilePicker } from 'use-file-picker';
 
 import { Hint } from '@/components/Hint/Hint';
 import { Logo } from '@/components/Logo/Logo';
@@ -25,6 +26,20 @@ interface NavbarProps {
 }
 
 export const NavBar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
+  const { openFilePicker } = useFilePicker({
+    accept: '.json',
+    onFilesSuccessfullySelected: ({ plainFiles }: any) => {
+      if (plainFiles && plainFiles.length > 0) {
+        const file = plainFiles[0];
+        const reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+        reader.onload = () => {
+          editor?.loadJSON(reader.result as string);
+        };
+      }
+    },
+  });
+
   return (
     <nav className='w-full z-50 flex items-center p-4 h-[68px] gap-x-4 bg-white border-gray-100 border-b lg:pl-[34px] overflow-hidden min-w-0'>
       <Logo variant='small' />
@@ -42,7 +57,7 @@ export const NavBar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) 
           </DropdownMenuTrigger>
           <DropdownMenuContent align='start' className='min-w-60 border-gray-200 bg-white border-0'>
             <DropdownMenuItem
-              onClick={() => {}}
+              onClick={() => openFilePicker()}
               className='flex items-center gap-x-2 cursor-pointer'
             >
               <CiFileOn className='size-8' />
