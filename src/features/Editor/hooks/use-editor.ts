@@ -605,15 +605,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
 
   useWindowEvents();
 
-  const {
-    save,
-    canRedo,
-    canUndo,
-    undo,
-    redo,
-    setHistoryIndex,
-    canvasHistory
-  } = useHistory({
+  const { save, canRedo, canUndo, undo, redo, setHistoryIndex, canvasHistory } = useHistory({
     canvas,
   });
 

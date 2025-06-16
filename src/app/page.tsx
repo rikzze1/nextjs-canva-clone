@@ -1,9 +1,8 @@
 import { Button } from '@/components/ui/button';
+import { signIn, auth } from '@/auth';
 
-export default function Home() {
-  return (
-    <div className='h-full'>
-      <Button>Hello world</Button>
-    </div>
-  );
+export default async function Home() {
+  const session = await auth();
+
+  return <div className='h-full'>{JSON.stringify(session)}</div>;
 }
