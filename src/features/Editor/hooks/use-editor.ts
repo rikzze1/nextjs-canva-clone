@@ -34,6 +34,8 @@ import { useAutoResize } from '@/features/Editor/hooks/use-auto-resize';
 import { useCanvasEvents } from '@/features/Editor/hooks/use-canvas-events';
 import { useHistory } from '@/features/Editor/hooks/use-history';
 import { useHotkeys } from '@/features/Editor/hooks/use-hotkeys';
+import { useWindowSize } from '@/features/Editor/hooks/react-use';
+import { useWindowEvents } from './use-window-events';
 
 const buildEditor = ({
   onUndo,
@@ -601,7 +603,17 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
   const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY);
 
-  const { save, canRedo, canUndo, undo, redo, setHistoryIndex, canvasHistory } = useHistory({
+  useWindowEvents();
+
+  const {
+    save,
+    canRedo,
+    canUndo,
+    undo,
+    redo,
+    setHistoryIndex,
+    canvasHistory
+  } = useHistory({
     canvas,
   });
 

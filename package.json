@@ -45,6 +45,7 @@
     "tailwindcss": "^4.1.8",
     "tailwindcss-animate": "^1.0.7",
     "unsplash-js": "^7.0.19",
+    "use-file-picker": "^2.1.4",
     "uuidv4": "^6.2.13",
     "zod": "^3.25.56"
   },

@@ -9,7 +9,7 @@ export function transformText(objects: any) {
     if (item.objects) {
       transformText(item.objects);
     } else {
-      item.type === 'text' && item.type === 'textbox';
+      item.type === 'text' && (item.type = 'textbox');
     }
   });
 }
@@ -18,7 +18,7 @@ export function downloadFile(file: string, type: string) {
   const anchorElement = document.createElement('a');
 
   anchorElement.href = file;
-  anchorElement.download = `${uuid()}.${type}}`;
+  anchorElement.download = `${uuid()}.${type}`;
   document.body.appendChild(anchorElement);
   anchorElement.click();
   anchorElement.remove();
