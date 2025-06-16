@@ -82,13 +82,17 @@ const buildEditor = ({
   };
 
   const saveSVG = () => {
-    const options = generateSaveOptions();
-
     canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
-    const dataUrl = canvas.toDataURL(options);
 
-    downloadFile(dataUrl, 'svg');
+    const svgString = canvas.toSVG();
+
+    const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    const svgUrl = URL.createObjectURL(svgBlob);
+
+    downloadFile(svgUrl, 'svg');
     autoZoom();
+
+    setTimeout(() => URL.revokeObjectURL(svgUrl), 100);
   };
 
   const saveJPG = () => {
@@ -121,7 +125,7 @@ const buildEditor = ({
     downloadFile(fileString, 'json');
   };
 
-  const loadFromJSON = (json: string) => {
+  const loadJSON = (json: string) => {
     const data = JSON.parse(json);
 
     canvas.loadFromJSON(data, () => {
@@ -154,7 +158,7 @@ const buildEditor = ({
     saveJPG,
     saveSVG,
     saveJSON,
-    loadFromJSON,
+    loadJSON,
     canUndo,
     canRedo,
     autoZoom,
