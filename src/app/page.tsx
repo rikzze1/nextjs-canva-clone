@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { signIn, auth } from '@/auth';
+import { protectServer } from '@/features/auth/utils';
 
 export default async function Home() {
-  const session = await auth();
+  await protectServer();
 
-  return <div className='h-full'>{JSON.stringify(session)}</div>;
+  return <div className='h-full'>You are logged in</div>;
 }

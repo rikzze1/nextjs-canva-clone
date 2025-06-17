@@ -3,6 +3,8 @@
 import { LoaderCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
+import { protectServer } from '@/features/auth/utils';
+
 const Editor = dynamic(
   () =>
     import('@/features/Editor/components/Editor').then(mod => ({
@@ -19,7 +21,9 @@ const Editor = dynamic(
   }
 );
 
-const EditorProjectIdPage = () => {
+const EditorProjectIdPage = async () => {
+  await protectServer();
+
   return (
     <div className='w-full h-screen overflow-hidden'>
       <Editor variant='fill' />
