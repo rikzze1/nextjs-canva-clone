@@ -7,3 +7,17 @@ export async function signInAuth(auth: 'google' | 'github') {
     callbackUrl: '/',
   });
 }
+
+export async function signInAutCredentials({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
+  return await signIn('credentials', {
+    email: email,
+    password: password,
+    callbackUrl: '/',
+  });
+}

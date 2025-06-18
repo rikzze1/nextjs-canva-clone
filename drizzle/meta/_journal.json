@@ -8,6 +8,13 @@
       "when": 1750085846120,
       "tag": "0000_closed_blue_blade",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1750234976166,
+      "tag": "0001_familiar_riptide",
+      "breakpoints": true
     }
   ]
 }
