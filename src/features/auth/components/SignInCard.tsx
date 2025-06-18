@@ -40,18 +40,6 @@ export const SignInCard = () => {
       <CardContent className='flex flex-col gap-4 px-0 pb-0'>
         <div className='flex flex-col gap-2 px-0 pb-0'>
           <Button
-            onClick={() => onProviderSignIn('github')}
-            disabled={isGithubLoading}
-            className='bg-black text-white hover:bg-black/80'
-          >
-            <FaGithub />
-            {!isGithubLoading ? (
-              <span>Continue with Github</span>
-            ) : (
-              <Loader className='animate-spinner size-4' />
-            )}
-          </Button>
-          <Button
             onClick={() => onProviderSignIn('google')}
             disabled={isGoogleLoading}
             className='bg-black text-white hover:bg-black/80'
@@ -59,6 +47,18 @@ export const SignInCard = () => {
             <FaGoogle />
             {!isGoogleLoading ? (
               <span>Continue with Google</span>
+            ) : (
+              <Loader className='animate-spinner size-4' />
+            )}
+          </Button>
+          <Button
+            onClick={() => onProviderSignIn('github')}
+            disabled={isGithubLoading}
+            className='bg-black text-white hover:bg-black/80'
+          >
+            <FaGithub />
+            {!isGithubLoading ? (
+              <span>Continue with Github</span>
             ) : (
               <Loader className='animate-spinner size-4' />
             )}
