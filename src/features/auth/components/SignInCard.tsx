@@ -14,8 +14,10 @@ export const SignInCard = () => {
   const [isGithubLoading, setIsGithubLoading] = useState(false);
 
   const onProviderSignIn = async (provider: 'google' | 'github') => {
-    if (provider === 'google') setIsGoogleLoading(true);
-    if (provider === 'github') setIsGithubLoading(true);
+    setTimeout(() => {
+      if (provider === 'google') setIsGoogleLoading(true);
+      if (provider === 'github') setIsGithubLoading(true);
+    }, 1000);
 
     try {
       await signInAuth(provider);
@@ -28,7 +30,7 @@ export const SignInCard = () => {
   };
 
   return (
-    <Card className='w-full h-full p-8 border-1 border-zinc-200'>
+    <Card className='w-full h-full p-8 border-1 border-zinc-200 bg-white'>
       <CardHeader className='px-0 pt-0 font-semibold text-xl'>
         <CardTitle>Login to continue</CardTitle>
         <CardDescription className='text-semibold text-sm text-zinc-600'>

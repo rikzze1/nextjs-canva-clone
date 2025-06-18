@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { signIn, auth } from '@/auth';
 import { protectServer } from '@/features/auth/utils';
 
 export default async function Home() {
