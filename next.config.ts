@@ -27,7 +27,8 @@ const nextConfig: NextConfig = {
         hostname: "replicate.delivery",
       }
     ]
-  }
+  },
+  serverExternalPackages: ['fabric']
 };
 
 export default nextConfig;
