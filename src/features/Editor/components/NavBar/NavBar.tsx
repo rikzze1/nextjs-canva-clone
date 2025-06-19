@@ -5,6 +5,7 @@ import React from 'react';
 import { BsCloudCheck } from 'react-icons/bs';
 import { CiFileOn } from 'react-icons/ci';
 import { useFilePicker } from 'use-file-picker';
+import { cn } from '@/lib/utils';
 
 import { Hint } from '@/components/Hint/Hint';
 import { Logo } from '@/components/Logo/Logo';
@@ -17,8 +18,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { ActiveTool, Editor } from '@/features/Editor/types';
-import { cn } from '@/lib/utils';
-import { UserButton } from '@/features/auth/components/UserButton';
+import { UserButton } from '@/components/Button/UserButton';
 
 interface NavbarProps {
   editor: Editor | undefined;
