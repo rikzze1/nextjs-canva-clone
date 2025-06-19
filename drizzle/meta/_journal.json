@@ -15,6 +15,20 @@
       "when": 1750234976166,
       "tag": "0001_familiar_riptide",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1750337711984,
+      "tag": "0002_sudden_dazzler",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1750342995191,
+      "tag": "0003_flaky_wind_dancer",
+      "breakpoints": true
     }
   ]
 }
