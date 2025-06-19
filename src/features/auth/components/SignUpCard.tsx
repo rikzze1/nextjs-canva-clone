@@ -3,18 +3,18 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaGoogle } from 'react-icons/fa6';
-import { Loader } from 'lucide-react';
+import { Loader, TriangleAlert } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 import { useSignUp } from '@/features/auth/services/mutation/use-signup';
+import { signInAutCredentials } from '@/lib/auth-action';
 
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Logo } from '@/components/Logo/Logo';
-import { signInAutCredentials } from '@/lib/auth-action';
 
 export const SignUpCard = () => {
   const [name, setName] = useState('');
@@ -76,9 +76,9 @@ export const SignUpCard = () => {
           </CardDescription>
         </CardHeader>
         {!!error && (
-          <div className='bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6'>
+          <div className='bg-red-800 p-3 rounded-md flex items-center gap-x-2 text-sm text-red-600 mb-6'>
             <TriangleAlert className='size-4' />
-            <p>Invalid email or password</p>
+            <p>Invalid email or pasasdfdssword</p>
           </div>
         )}
         <CardContent className='flex flex-col gap-4 px-0 pb-0'>

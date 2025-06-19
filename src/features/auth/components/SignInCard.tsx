@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaGithub, FaGoogle } from 'react-icons/fa6';
-import { Loader } from 'lucide-react';
+import { Loader, TriangleAlert } from 'lucide-react';
 
 import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -17,35 +17,36 @@ import { Logo } from '@/components/Logo/Logo';
 export const SignInCard = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const params = useSearchParams();
-  const error = params.get('error');
+  const urlError = params.get('error');
 
   const [isCredLoding, setIsCredLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isGithubLoading, setIsGithubLoading] = useState(false);
 
-  const onCredentialSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+  const onCredentialSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setTimeout(() => {
-      setIsCredLoading(true);
-    }, 500);
+    setError(null); // Clear previous errors
+    setIsCredLoading(true);
 
     try {
-      signInAutCredentials({ email, password });
+      const result = await signInAutCredentials({ email, password });
+      if (result?.error) {
+        setError(result.error);
+      }
     } catch (error) {
       console.log('login Error. Please try again', error);
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsCredLoading(false);
     }
   };
 
   const onProviderSignIn = async (provider: 'google' | 'github') => {
-    setTimeout(() => {
-      if (provider === 'google') setIsGoogleLoading(true);
-      if (provider === 'github') setIsGithubLoading(true);
-    }, 1000);
+    if (provider === 'google') setIsGoogleLoading(true);
+    if (provider === 'github') setIsGithubLoading(true);
 
     try {
       await signInAuth(provider);
@@ -56,6 +57,9 @@ export const SignInCard = () => {
       if (provider === 'github') setIsGithubLoading(false);
     }
   };
+
+  // Display error from either URL params or local state
+  const displayError = error || urlError;
 
   return (
     <div className='flex flex-col w-full items-center justify-center gap-10'>
@@ -90,10 +94,10 @@ export const SignInCard = () => {
             Use your email or another service to continue
           </CardDescription>
         </CardHeader>
-        {!!error && (
-          <div className='bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6'>
+        {!!displayError && (
+          <div className='bg-red-700 p-3 rounded-md flex items-center gap-x-2 text-sm text-white mb-6'>
             <TriangleAlert className='size-4' />
-            <p>Invalid email or password</p>
+            <p>{displayError === 'OAuthSignInError' ? 'OAuth sign in failed' : displayError}</p>
           </div>
         )}
         <CardContent className='flex flex-col w-full justify-center items-center gap-4 px-0 pb-0'>
