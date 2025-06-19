@@ -18,6 +18,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { ActiveTool, Editor } from '@/features/Editor/types';
 import { cn } from '@/lib/utils';
+import { UserButton } from '@/features/auth/components/UserButton';
 
 interface NavbarProps {
   editor: Editor | undefined;
@@ -160,7 +161,7 @@ export const NavBar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) 
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          {/* TODO: Add user-button components */}
+          <UserButton />
         </div>
       </div>
     </nav>
