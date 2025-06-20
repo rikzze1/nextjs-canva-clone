@@ -2,12 +2,15 @@
 
 import clsx from 'clsx';
 import { fabric } from 'fabric';
+import debounce from 'lodash.debounce';
 import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
-import { SELECTION_DEPENT_TOOLS } from '@/features/Editor/constants';
 
+import { SELECTION_DEPENT_TOOLS } from '@/features/Editor/constants';
 import { ActiveTool } from '@/features/Editor/types';
 import { useEditor } from '@/features/Editor/hooks/use-editor';
-import { ResponseType } from '@/features/projects/services/queries/use-get-projects';
+
+import { ResponseType } from '@/features/Projects/services/queries/use-get-projects';
+import { useUpdateProject } from '@/features/Projects/services/mutation/use-update-project';
 
 import { EditorVariants, variants } from '@/features/Editor/components/Editor.variance';
 import { Footer } from '@/features/Editor/components/Footer/Footer';
@@ -33,7 +36,18 @@ type EditorProps = ComponentProps<'canvas'> &
     initialData: ResponseType['data'];
   };
 
-export const Editor = ({ variant, ...props, initialData }: EditorProps) => {
+export const Editor = ({ variant, initialData, ...props }: EditorProps) => {
+  const { mutate } = useUpdateProject(initialData.id);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSave = useCallback(
+    debounce((values: { json: string; height: number; width: number }) => {
+      console.log('saving...');
+      mutate(values);
+    }, 500),
+    [mutate]
+  );
+
   const [activeTool, setActiveTool] = useState<ActiveTool>('select');
 
   const onClearSelection = useCallback(() => {
@@ -43,7 +57,10 @@ export const Editor = ({ variant, ...props, initialData }: EditorProps) => {
   }, [activeTool]);
 
   const { init, editor } = useEditor({
+    defaultState: initialData.json,
+    defaultWidth: initialData.width,
     clearSelectionCallback: onClearSelection,
+    saveCallback: debouncedSave,
   });
 
   const canvasRef = useRef(null);
@@ -89,7 +106,12 @@ export const Editor = ({ variant, ...props, initialData }: EditorProps) => {
 
   return (
     <div className={clsx(variants({ variant }), 'bg-muted')} ref={containerRef}>
-      <NavBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
+      <NavBar
+        id={initialData.id}
+        editor={editor}
+        activeTool={activeTool}
+        onChangeActiveTool={onChangeActiveTool}
+      />
       <div className='absolute h-[calc(100%-68px)] w-full top-[68px] flex'>
         <SideBar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
         <ShapeSideBar

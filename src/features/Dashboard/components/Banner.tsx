@@ -3,7 +3,7 @@
 import { Sparkles, ArrowRight, Loader } from 'lucide-react';
 
 import { useRouter } from 'next/navigation';
-import { useCreateProject } from '@/features/projects/services/mutation/use-create-project';
+import { useCreateProject } from '@/features/Projects/services/mutation/use-create-project';
 
 import { Button } from '@/components/ui/button';
 

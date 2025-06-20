@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { LoaderCircle } from 'lucide-react';
 import { Loader, TriangleAlert } from 'lucide-react';
 
-import { useGetProject } from '@/features/projects/services/queries/use-get-projects';
+import { useGetProject } from '@/features/Projects/services/queries/use-get-projects';
 
 import { Button } from '@/components/ui/button';
 
@@ -33,7 +33,7 @@ interface EditorWrapperProps {
 }
 
 export const EditorWrapper = ({ variant = 'fill', params }: EditorWrapperProps) => {
-  const { data, isLoading, isError } = useGetProject(params ? params.projectId : "");
+  const { data, isLoading, isError } = useGetProject(params ? params.projectId : '');
 
   if (isLoading || !data) {
     return (
