@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
+
 import { EditorWrapper } from '@/components/ClientWrappers/EditorWrapper';
 
 const EditorProjectIdPage = async () => {

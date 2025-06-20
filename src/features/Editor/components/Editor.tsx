@@ -4,8 +4,10 @@ import clsx from 'clsx';
 import { fabric } from 'fabric';
 import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
 import { SELECTION_DEPENT_TOOLS } from '@/features/Editor/constants';
+
 import { ActiveTool } from '@/features/Editor/types';
 import { useEditor } from '@/features/Editor/hooks/use-editor';
+import { ResponseType } from '@/features/projects/services/queries/use-get-projects';
 
 import { EditorVariants, variants } from '@/features/Editor/components/Editor.variance';
 import { Footer } from '@/features/Editor/components/Footer/Footer';
@@ -26,9 +28,12 @@ import { DrawSidebar } from '@/features/Editor/components/SideBar/tools/SideBarD
 import { SettingsSidebar } from '@/features/Editor/components/SideBar/tools/SideBarSettings';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
 
-type EditorProps = ComponentProps<'canvas'> & EditorVariants;
+type EditorProps = ComponentProps<'canvas'> &
+  EditorVariants & {
+    initialData: ResponseType['data'];
+  };
 
-export const Editor = ({ variant, ...props }: EditorProps) => {
+export const Editor = ({ variant, ...props, initialData }: EditorProps) => {
   const [activeTool, setActiveTool] = useState<ActiveTool>('select');
 
   const onClearSelection = useCallback(() => {

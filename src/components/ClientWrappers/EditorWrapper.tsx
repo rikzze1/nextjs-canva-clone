@@ -1,7 +1,13 @@
 'use client';
 
-import { LoaderCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import { LoaderCircle } from 'lucide-react';
+import { Loader, TriangleAlert } from 'lucide-react';
+
+import { useGetProject } from '@/features/projects/services/queries/use-get-projects';
+
+import { Button } from '@/components/ui/button';
 
 const Editor = dynamic(
   () =>
@@ -20,9 +26,34 @@ const Editor = dynamic(
 );
 
 interface EditorWrapperProps {
-  variant?: 'fill' | 'default';
+  variant?: 'fill' | 'medium' | 'small';
+  params?: {
+    projectId: string;
+  };
 }
 
-export const EditorWrapper = ({ variant = 'fill' }: EditorWrapperProps) => {
-  return <Editor variant={variant} />;
+export const EditorWrapper = ({ variant = 'fill', params }: EditorWrapperProps) => {
+  const { data, isLoading, isError } = useGetProject(params ? params.projectId : "");
+
+  if (isLoading || !data) {
+    return (
+      <div className='h-full flex flex-col items-center justify-center'>
+        <Loader className='size-6 animate-spin text-black' />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className='h-full flex flex-col gap-y-5 items-center justify-center'>
+        <TriangleAlert className='size-6 text-red-700' />
+        <p className='text-gray-500 text-sm'>Failed to fetch project</p>
+        <Button asChild variant='secondary'>
+          <Link href='/'>Back to home</Link>
+        </Button>
+      </div>
+    );
+  }
+
+  return <Editor variant={variant} initialData={data} />;
 };
