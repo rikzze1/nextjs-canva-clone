@@ -59,6 +59,7 @@ export const Editor = ({ variant, initialData, ...props }: EditorProps) => {
   const { init, editor } = useEditor({
     defaultState: initialData.json,
     defaultWidth: initialData.width,
+    defaultHeight: initialData.height,
     clearSelectionCallback: onClearSelection,
     saveCallback: debouncedSave,
   });
@@ -105,7 +106,7 @@ export const Editor = ({ variant, initialData, ...props }: EditorProps) => {
   );
 
   return (
-    <div className={clsx(variants({ variant }), 'bg-muted')} ref={containerRef}>
+    <div className={clsx(variants({ variant }), 'bg-muted')}>
       <NavBar
         id={initialData.id}
         editor={editor}
@@ -179,17 +180,17 @@ export const Editor = ({ variant, initialData, ...props }: EditorProps) => {
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
-        <main className='bg-muted flex-1 overflow-auto relative flex flex-col' tabIndex={0}>
+        <main className='bg-muted flex-1 overflow-auto relative flex flex-col'>
           <ToolBar
             activeTool={activeTool}
             onChangeActiveTool={onChangeActiveTool}
             editor={editor}
           />
-          <div>
-            <canvas ref={canvasRef} {...props} />
+          <div className='flex-1 h-[calc(100%-124px)] bg-muted' ref={containerRef}>
+            <canvas ref={canvasRef} />
           </div>
+          <Footer editor={editor} />
         </main>
-        <Footer editor={editor} />
       </div>
     </div>
   );
