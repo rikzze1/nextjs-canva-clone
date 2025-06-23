@@ -9,7 +9,7 @@ import { SELECTION_DEPENT_TOOLS } from '@/features/Editor/constants';
 import { ActiveTool } from '@/features/Editor/types';
 import { useEditor } from '@/features/Editor/hooks/use-editor';
 
-import { ResponseType } from '@/features/Projects/services/queries/use-get-projects';
+import { ResponseType } from '@/features/Projects/services/queries/use-get-project';
 import { useUpdateProject } from '@/features/Projects/services/mutation/use-update-project';
 
 import { EditorVariants, variants } from '@/features/Editor/components/Editor.variance';

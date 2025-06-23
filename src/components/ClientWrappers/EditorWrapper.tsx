@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { LoaderCircle } from 'lucide-react';
 import { Loader, TriangleAlert } from 'lucide-react';
 
-import { useGetProject } from '@/features/Projects/services/queries/use-get-projects';
+import { useGetProject } from '@/features/Projects/services/queries/use-get-project';
 
 import { Button } from '@/components/ui/button';
 

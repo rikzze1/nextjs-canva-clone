@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React,{ useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
 
 import { JSON_KEYS } from '@/features/Editor/types';
@@ -22,8 +22,6 @@ export const useLoadState = ({
 
   useEffect(() => {
     if (!initialized.current && initialState?.current && canvas) {
-      const data = JSON.parse(initialState.current);
-
       canvas.loadFromJSON(JSON.parse(initialState.current), () => {
         const currentState = JSON.stringify(canvas.toJSON(JSON_KEYS));
 
