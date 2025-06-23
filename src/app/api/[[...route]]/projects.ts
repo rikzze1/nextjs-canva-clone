@@ -8,35 +8,25 @@ import { db } from '@/db/drizzle';
 import { projectsInsertSchema, projects } from '@/db/schema';
 
 const app = new Hono()
-.delete(
-  '/:id',
-  verifyAuth(),
-  zValidator('param', z.object({ id: z.string()})),
-  async (c) => {
+  .delete('/:id', verifyAuth(), zValidator('param', z.object({ id: z.string() })), async c => {
     const auth = c.get('authUser');
     const { id } = c.req.valid('param');
 
-    if(!auth.token?.id) {
-      return c.json({ error: 'Unauthorized'}, 401);
+    if (!auth.token?.id) {
+      return c.json({ error: 'Unauthorized' }, 401);
     }
 
     const data = await db
-    .delete(projects)
-    .where(
-      and(
-      eq(projects.id, id),
-      eq(projects.userId, auth.token.id)
-      ),
-    )
-    .returning();
+      .delete(projects)
+      .where(and(eq(projects.id, id), eq(projects.userId, auth.token.id)))
+      .returning();
 
-    if(data.length === 0) {
-      return c.json({ error: 'Unauthorized'}, 404);
+    if (data.length === 0) {
+      return c.json({ error: 'Unauthorized' }, 404);
     }
 
-    return c.json({ data: { id }});
-  }
-)
+    return c.json({ data: { id } });
+  })
   .post(
     '/:id/duplicate',
     verifyAuth(),

@@ -4,13 +4,8 @@ import { toast } from 'sonner';
 
 import { client } from '@/lib/hono';
 
-type ResponseType = InferResponseType<
-  (typeof client.api.projects)[':id']['$delete'],
-  200
->;
-type RequestType = InferRequestType<
-  (typeof client.api.projects)[':id']['$delete']
->['param'];
+type ResponseType = InferResponseType<(typeof client.api.projects)[':id']['$delete'], 200>;
+type RequestType = InferRequestType<(typeof client.api.projects)[':id']['$delete']>['param'];
 
 export const useDeleteProject = () => {
   const queryClient = useQueryClient();
@@ -29,9 +24,14 @@ export const useDeleteProject = () => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({ queryKey: ['projects'] });
-      queryClient.invalidateQueries({ queryKey: ['projects', {
-        id: data.id
-      }] });
+      queryClient.invalidateQueries({
+        queryKey: [
+          'projects',
+          {
+            id: data.id,
+          },
+        ],
+      });
     },
     onError: () => {
       toast.error('Failed to delete project');

@@ -28,7 +28,7 @@ export const SignInCard = () => {
 
   const onCredentialSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null); // Clear previous errors
+    setError(null);
     setIsCredLoading(true);
 
     try {
@@ -58,7 +58,6 @@ export const SignInCard = () => {
     }
   };
 
-  // Display error from either URL params or local state
   const displayError = error || urlError;
 
   return (

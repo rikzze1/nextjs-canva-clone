@@ -1,4 +1,4 @@
-import React,{ useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
 
 import { JSON_KEYS } from '@/features/Editor/types';

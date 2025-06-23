@@ -14,6 +14,9 @@ import {
 } from 'lucide-react';
 
 import { useGetProjects } from '@/features/Projects/services/queries/use-get-projects';
+import { useDuplicateProject } from '@/features/Projects/services/mutation/use-duplicate-project';
+import { useDeleteProject } from '@/features/Projects/services/mutation/use-delete-project';
+import { useConfirm } from '@/hooks/use-confirm';
 
 import { Table, TableRow, TableBody, TableCell } from '@/components/ui/table';
 import {
@@ -23,10 +26,12 @@ import {
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { useDuplicateProject } from '@/features/Projects/services/mutation/use-duplicate-project';
-import { useDeleteProject } from '@/features/Projects/services/mutation/use-delete-project';
 
 export const ProjectsSection = () => {
+  const [ConfirmDialog, confirm] = useConfirm(
+    'Are you sure?',
+    'You are about to delete this project.'
+  );
   const router = useRouter();
 
   const duplicateMutation = useDuplicateProject();
@@ -36,8 +41,12 @@ export const ProjectsSection = () => {
     duplicateMutation.mutate({ id });
   };
 
-  const onDelete = (id: string) => {
-    removeMutation.mutate({ id });
+  const onDelete = async (id: string) => {
+    const ok = await confirm();
+
+    if (ok) {
+      removeMutation.mutate({ id });
+    }
   };
 
   const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetProjects();
@@ -79,6 +88,7 @@ export const ProjectsSection = () => {
 
   return (
     <div className='space-y-4'>
+      <ConfirmDialog />
       <h3 className='font-semibold text-zinc-800 text-xl'>Recent Projects</h3>
       <Table>
         <TableBody>
