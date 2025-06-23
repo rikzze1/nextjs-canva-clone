@@ -24,14 +24,20 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useDuplicateProject } from '@/features/Projects/services/mutation/use-duplicate-project';
+import { useDeleteProject } from '@/features/Projects/services/mutation/use-delete-project';
 
 export const ProjectsSection = () => {
   const router = useRouter();
 
   const duplicateMutation = useDuplicateProject();
+  const removeMutation = useDeleteProject();
 
   const onCopy = (id: string) => {
     duplicateMutation.mutate({ id });
+  };
+
+  const onDelete = (id: string) => {
+    removeMutation.mutate({ id });
   };
 
   const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetProjects();
@@ -124,8 +130,8 @@ export const ProjectsSection = () => {
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className='cursor-pointer'
-                          disabled={false}
-                          onClick={() => {}}
+                          disabled={removeMutation.isPending}
+                          onClick={() => onDelete(project.id)}
                         >
                           <div className='flex flex-row items-center gap-2'>
                             <Trash className='size-5' />
