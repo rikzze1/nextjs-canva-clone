@@ -2,6 +2,7 @@ import { protectServer } from '@/features/auth/utils';
 
 import { Banner } from '@/features/Dashboard/components/Banner';
 import { ProjectsSection } from '@/features/Dashboard/components/ProjectsSection';
+import { TemplatesSection } from '@/features/Dashboard/components/TemplatesSection';
 
 export default async function Home() {
   await protectServer();
@@ -9,6 +10,7 @@ export default async function Home() {
   return (
     <div className='flex flex-col space-y-6 max-w-screen-xl mx-auto pb-10'>
       <Banner />
+      <TemplatesSection />
       <ProjectsSection />
     </div>
   );
