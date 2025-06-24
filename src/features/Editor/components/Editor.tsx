@@ -29,6 +29,7 @@ import { OpacitySidebar } from '@/features/Editor/components/SideBar/tools/SideB
 import { SidebarRemoveBG } from '@/features/Editor/components/SideBar/tools/SideBarBG';
 import { DrawSidebar } from '@/features/Editor/components/SideBar/tools/SideBarDraw';
 import { SettingsSidebar } from '@/features/Editor/components/SideBar/tools/SideBarSettings';
+import { TemplateSidebar } from '@/features/Editor/components/SideBar/tools/SideBarTemplate';
 import { ToolBar } from '@/features/Editor/components/ToolBar/ToolBar';
 
 type EditorProps = ComponentProps<'canvas'> &
@@ -151,6 +152,11 @@ export const Editor = ({ variant, initialData, ...props }: EditorProps) => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <ImageSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <TemplateSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
