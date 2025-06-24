@@ -7,7 +7,7 @@ type SubscriptionModalState = {
 };
 
 export const useSubscriptionModal = create<SubscriptionModalState>(set => ({
-  isOpen: true,
+  isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));
