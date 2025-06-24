@@ -7,28 +7,28 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "images.unsplash.com",
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       },
       {
-        protocol: "https",
-        hostname: "utfs.io",
+        protocol: 'https',
+        hostname: 'utfs.io',
       },
       {
-        protocol: "https",
-        hostname: "*.ufs.sh",
+        protocol: 'https',
+        hostname: '*.ufs.sh',
       },
       {
-        protocol: "https",
-        hostname: "uploadthing.com",
+        protocol: 'https',
+        hostname: 'uploadthing.com',
       },
       {
-        protocol: "https",
-        hostname: "replicate.delivery",
-      }
-    ]
+        protocol: 'https',
+        hostname: 'replicate.delivery',
+      },
+    ],
   },
-  serverExternalPackages: ['fabric']
+  serverExternalPackages: ['fabric'],
 };
 
 export default nextConfig;
