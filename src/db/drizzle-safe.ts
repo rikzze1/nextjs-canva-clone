@@ -10,7 +10,7 @@ let db: ReturnType<typeof drizzle>;
 
 try {
   const sql = neon(process.env.DATABASE_URL, {
-    // Add connection options for better WSL compatibility
+    // @ts-expect-error - Neon connection options may not be fully typed
     connectionTimeoutMillis: 10000,
   });
   db = drizzle({ client: sql });
