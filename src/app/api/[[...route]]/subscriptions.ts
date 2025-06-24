@@ -79,7 +79,7 @@ const app = new Hono()
                 customerId: subscription.customer as string,
                 priceId: subscription.items.data[0].price.product as string,
                 currentPeriodEnd: new Date(
-                    subscription.current_period_id * 1000
+                    subscription.current_period_end * 1000
                 ),
                 createdAt: new Date(),
                 updatedAt: new Date(),
