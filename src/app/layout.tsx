@@ -6,6 +6,7 @@ import { auth } from '@/auth';
 
 import { Providers } from '@/providers/Providers';
 import { Toaster } from '@/components/ui/sonner';
+import { Modals } from '@/components/Modal/Modals';
 
 import './globals.css';
 
@@ -39,6 +40,7 @@ export default async function RootLayout({
         >
           <Providers>{children}</Providers>
           <Toaster />
+          <Modals />
         </body>
       </html>
     </SessionProvider>
