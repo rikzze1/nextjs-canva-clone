@@ -44,6 +44,7 @@ export const NavBar = ({ id, editor, activeTool, onChangeActiveTool }: NavbarPro
 
   const { openFilePicker } = useFilePicker({
     accept: '.json',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onFilesSuccessfullySelected: ({ plainFiles }: any) => {
       if (plainFiles && plainFiles.length > 0) {
         const file = plainFiles[0];

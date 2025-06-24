@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { useSignUp } from '@/features/auth/services/mutation/use-signup';
 import { signInAutCredentials } from '@/lib/auth-action';
 
-import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
+import { CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -59,7 +59,7 @@ export const SignUpCard = () => {
           IMG CANVAS
         </motion.span>
       </div>
-      <motion.Card
+      <motion.div
         variants={{
           visible: { opacity: 1 },
           hidden: { opacity: 0 },
@@ -149,7 +149,7 @@ export const SignUpCard = () => {
             </Link>
           </p>
         </CardContent>
-      </motion.Card>
+      </motion.div>
     </div>
   );
 };

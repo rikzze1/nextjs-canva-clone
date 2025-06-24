@@ -12,6 +12,7 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .middleware(async ({ req }) => {
       const session = await auth();
 

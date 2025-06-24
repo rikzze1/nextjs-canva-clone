@@ -37,6 +37,7 @@ type EditorProps = ComponentProps<'canvas'> &
     initialData: ResponseType['data'];
   };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const Editor = ({ variant, initialData, ...props }: EditorProps) => {
   const { mutate } = useUpdateProject(initialData.id);
 

@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { FaGithub, FaGoogle } from 'react-icons/fa6';
 import { Loader, TriangleAlert } from 'lucide-react';
 
-import { Card, CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
+import { CardTitle, CardHeader, CardContent, CardDescription } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -77,7 +77,7 @@ export const SignInCard = () => {
           IMG CANVAS
         </motion.span>
       </div>
-      <motion.Card
+      <motion.div
         variants={{
           visible: { opacity: 1 },
           hidden: { opacity: 0 },
@@ -168,7 +168,7 @@ export const SignInCard = () => {
             </Link>
           </p>
         </CardContent>
-      </motion.Card>
+      </motion.div>
     </div>
   );
 };

@@ -2,13 +2,16 @@ import { fabric } from 'fabric';
 import { RGBColor } from 'react-color';
 import { v4 as uuid } from 'uuid';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function transformText(objects: any) {
   if (!objects) return;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   objects.forEach((item: any) => {
     if (item.objects) {
       transformText(item.objects);
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       item.type === 'text' && (item.type = 'textbox');
     }
   });

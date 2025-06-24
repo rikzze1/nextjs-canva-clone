@@ -23,6 +23,7 @@ const app = new Hono().basePath('/api');
 
 app.use('*', initAuthConfig(getAuthConfig));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const routes = app
   .route('/ai', ai)
   .route('/test', test)
