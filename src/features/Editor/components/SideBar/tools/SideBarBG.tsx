@@ -1,13 +1,14 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { AlertTriangle } from 'lucide-react';
 
 import { ActiveTool, Editor } from '@/features/Editor/types';
 import { useRemoveBg } from '@/features/Images/services/mutations/use-remove-background';
+import { usePaywall } from '@/features/Subscriptions/hooks/use-paywall';
 
-import { AlertTriangle } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideBarClose';
@@ -20,6 +21,7 @@ interface SidebarRemoveBG {
 }
 
 export const SidebarRemoveBG = ({ editor, activeTool, onChangeActiveTool }: SidebarRemoveBG) => {
+  const { shouldBlock, triggerPaywall } = usePaywall();
   const mutation = useRemoveBg();
 
   const selectedObject = editor?.selectedObjects[0];
@@ -28,6 +30,11 @@ export const SidebarRemoveBG = ({ editor, activeTool, onChangeActiveTool }: Side
   const imageSrc = selectedObject?._originalElement?.currentSrc;
 
   const onClick = () => {
+    if (shouldBlock) {
+      triggerPaywall();
+      return;
+    }
+
     mutation.mutate(
       {
         image: imageSrc,

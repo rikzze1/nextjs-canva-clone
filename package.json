@@ -69,7 +69,8 @@
     "unsplash-js": "^7.0.19",
     "use-file-picker": "^2.1.4",
     "uuidv4": "^6.2.13",
-    "zod": "^3.25.56"
+    "zod": "^3.25.56",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.0",

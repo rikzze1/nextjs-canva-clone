@@ -3,13 +3,15 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 
+import { ActiveTool, Editor } from '@/features/Editor/types';
+import { useGenerateImage } from '@/features/Images/services/mutations/use-generate-image';
+import { usePaywall } from '@/features/Subscriptions/hooks/use-paywall';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { ToolSideBarClose } from '@/features/Editor/components/ToolBar/ToolSideBarClose';
 import { ToolSideBarHeader } from '@/features/Editor/components/ToolBar/ToolSideBarHeader';
-import { ActiveTool, Editor } from '@/features/Editor/types';
-import { useGenerateImage } from '@/features/Images/services/mutations/use-generate-image';
 
 interface SidebarAIProps {
   editor: Editor | undefined;
@@ -20,10 +22,16 @@ interface SidebarAIProps {
 export const SidebarAi = ({ editor, activeTool, onChangeActiveTool }: SidebarAIProps) => {
   const [value, setValue] = useState('');
 
+  const { shouldBlock, triggerPaywall } = usePaywall();
   const mutation = useGenerateImage();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (shouldBlock) {
+      triggerPaywall();
+      return;
+    }
 
     mutation.mutate(
       { prompt: value },
