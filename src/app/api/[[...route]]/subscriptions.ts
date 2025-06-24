@@ -46,7 +46,7 @@ const app = new Hono()
         const body = await c.req.text();
         const signature = c.req.header("Stripe-Signature") as string;
 
-        let event: Stripe.EVent;
+        let event: Stripe.Event;
 
         try{
             event = stripe.webhooks.constructEvent(
