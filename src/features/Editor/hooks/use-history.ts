@@ -3,6 +3,7 @@ import { useCallback, useRef, useState } from 'react';
 import { JSON_KEYS } from '@/features/Editor/types';
 
 interface UseHistoryProps {
+  // @ts-expect-error - Fabric.js Canvas type may not be properly exported
   canvas: fabric.Canvas | null;
   saveCallback?: (values: { json: string; height: number; width: number }) => void;
 }
