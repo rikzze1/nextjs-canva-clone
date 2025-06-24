@@ -3,6 +3,7 @@
 import { CheckCircle2 } from 'lucide-react';
 
 import { useSubscriptionModal } from '@/features/Subscriptions/store/use-subscription-modal';
+import { useCheckout } from '@/features/Subscriptions/services/mutations/use-checkout';
 
 import {
   Dialog,
@@ -17,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/Logo/Logo';
 
 export const SubscriptionModal = () => {
+  const mutation = useCheckout();
   const { isOpen, onClose } = useSubscriptionModal();
 
   return (
@@ -47,8 +49,8 @@ export const SubscriptionModal = () => {
         <DialogFooter className='pt-2 mt-4 gap-y-2'>
           <Button
             className='w-full bg-black text-white hover:opacity-80'
-            onClick={() => {}}
-            disabled={false}
+            onClick={() => mutation.mutate()}
+            disabled={mutation.isPending}
           >
             Upgrade
           </Button>

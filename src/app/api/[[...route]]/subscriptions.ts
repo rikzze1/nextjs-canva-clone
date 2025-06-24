@@ -1,7 +1,10 @@
 import { Hono } from "hono";
 import stripe from "@/lib/stripe";
+import Stripe from "stripe";
 
+import { db } from '@/db/drizzle';
 import { verifyAuth } from '@hono/auth-js';
+import { subscriptions } from '@/db/schema';
 
 const app = new Hono()
 .post("/checkout", verifyAuth(), async (c) => {
@@ -12,10 +15,10 @@ const app = new Hono()
     }
 
     const session = await stripe.checkout.sessions.create({
-        success_url: "http://localhost:3000?success=1",
-        cancel_url: "http://localhost:3000?canceled=1",
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL}?success=1`,
+        cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}?canceled=1`,
         payment_method_types: ["card", "paypal"],
-        mode: "subscriptions",
+        mode: "subscription",
         billing_address_collection: "auto",
         customer_email: auth.token.email || "",
         line_items: [
@@ -36,6 +39,55 @@ const app = new Hono()
     }
 
     return c.json({ data: url});
-});
+})
+.post(
+    "/webhook",
+    async (c) => {
+        const body = await c.req.text();
+        const signature = c.req.header("Stripe-Signature") as string;
+
+        let event: Stripe.EVent;
+
+        try{
+            event = stripe.webhooks.constructEvent(
+                body,
+                signature,
+                process.env.STRIPE_WEBHOOK_SECRET!
+            );
+
+        }catch{
+            return c.json({ error: "Invalid signature "}, 400);
+        }
+
+        const session = event.data.object as Stripe.Checkout.Session;
+
+        if(event.type === 'checkout.session.completed'){
+            const subscription = await stripe.subscriptions.retrieve(
+                session.subscription as string,
+            );
+
+            if(!session?.metadata?.userId) {
+                return c.json({ error: "Invalid session"}, 400);
+            }
+
+            await db
+            .insert(subscriptions)
+            .values({
+                status: subscription.status,
+                userId: session.metadata.userId,
+                subscriptionId: subscription.id,
+                customerId: subscription.customer as string,
+                priceId: subscription.items.data[0].price.product as string,
+                currentPeriodEnd: new Date(
+                    subscription.current_period_id * 1000
+                ),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            });
+        }
+
+        return c.json(null, 200);
+    }
+);
 
 export default app;
