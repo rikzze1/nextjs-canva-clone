@@ -35,6 +35,7 @@ export const TemplatesSection = () => {
         height: template.height,
       },
       {
+        // @ts-expect-error - Response type structure may vary
         onSuccess: ({ data }) => {
           router.push(`/editor/${data.id}`);
         },

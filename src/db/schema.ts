@@ -121,20 +121,20 @@ export const projectsRelations = relations(projects, ({ one }) => ({
 
 export const projectsInsertSchema = createInsertSchema(projects);
 
-export const subscriptions = pgTable("subscriptions", {
-  id: text("id")
-  .primaryKey()
-  .$defaultFn(() => crypto.randomUUID()),
-  userId: text("userId")
-   .notNull()
-   .references(() => users.id, {
-    onDelete: "cascade"
-   }),
-   subscriptionId: text("subscriptionId").notNull(),
-   customerId: text("customerId").notNull(),
-   priceId: text("priceId").notNull(),
-   status: text("status").notNull(),
-   currentPeriodEnd: timestamp("currentPeriodEnd", { mode: "date"}),
-   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
-   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
+export const subscriptions = pgTable('subscriptions', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, {
+      onDelete: 'cascade',
+    }),
+  subscriptionId: text('subscriptionId').notNull(),
+  customerId: text('customerId').notNull(),
+  priceId: text('priceId').notNull(),
+  status: text('status').notNull(),
+  currentPeriodEnd: timestamp('currentPeriodEnd', { mode: 'date' }),
+  createdAt: timestamp('createdAt', { mode: 'date' }).notNull(),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull(),
 });
