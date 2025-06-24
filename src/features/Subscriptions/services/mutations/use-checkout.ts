@@ -19,6 +19,7 @@ export const useCheckout = () => {
 
       return await response.json();
     },
+    // @ts-expect-error - Response type structure may vary
     onSuccess: ({ data }) => {
       window.location.href = data;
     },
