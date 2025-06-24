@@ -79,7 +79,7 @@ const app = new Hono()
                 customerId: subscription.customer as string,
                 priceId: subscription.items.data[0].price.product as string,
                 currentPeriodEnd: new Date(
-                    // @ts-ignore
+                    // @ts-expect-error - Stripe types don't include current_period_end
                     subscription.current_period_end * 1000
                 ),
                 createdAt: new Date(),
