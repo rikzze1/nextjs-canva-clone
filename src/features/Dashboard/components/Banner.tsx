@@ -20,6 +20,7 @@ export const Banner = () => {
         height: 1200,
       },
       {
+        // @ts-expect-error - Response type structure may vary
         onSuccess: ({ data }) => {
           router.push(`/editor/${data.id}`);
         },
